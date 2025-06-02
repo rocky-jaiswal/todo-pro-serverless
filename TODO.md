@@ -1,0 +1,24 @@
+# To Dos
+
+- Read secrets in TS code
+- Secrets for local setup vs Lambda
+- Deploy backend as Lambda
+  - Create archive etc.
+  - Upload new lambda code
+- Frontend: Configurable API URL
+- Deploy FE
+  - Build & upload FE code to S3, CDN invalidation
+  - Talks to Lambda in BE
+- TF: Cors for API, only allow request from FE URL
+- Login with Google works
+  - Correct Google OAuth config / secrets
+- JWT setup works
+  - Basic home page
+- DynamoDB local
+- ElectroDB setup for DB (local and Lambda)
+- User registration / login with email
+- TaskLists - Create, List, Read
+- Tasks - Create, List, Read
+- Integration testing
+- Proper logging with "correlation-ids" etc.
+  - Use AWS Cloudwatch for logging etc.

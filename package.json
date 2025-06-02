@@ -1,0 +1,21 @@
+{
+  "name": "todo-pro-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "apps/todo-pro-trpc-server",
+    "packages/todo-pro-api",
+    "apps/todo-pro-web"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}

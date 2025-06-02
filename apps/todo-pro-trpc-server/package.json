@@ -1,0 +1,35 @@
+{
+  "name": "todo-pro-trpc-server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "APP_ENVIRONMENT=development NODE_ENV=development tsx src/local/server.ts",
+    "client:test": "npx tsx src/local/client.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-api-gateway": "^3.758.0",
+    "@aws-sdk/client-lambda": "^3.758.0",
+    "@aws-sdk/client-secrets-manager": "^3.821.0",
+    "@trpc/server": "^11.0.0-rc.824",
+    "build": "^0.1.4",
+    "google-auth-library": "^9.15.1",
+    "pino": "^9.6.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@trpc/client": "^11.0.0-rc.824",
+    "@types/aws-lambda": "^8.10.147",
+    "@types/cors": "^2.8.18",
+    "@types/node": "^20.17.24",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "nodemon": "^3.1.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

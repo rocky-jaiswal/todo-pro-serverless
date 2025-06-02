@@ -1,0 +1,67 @@
+{
+  "name": "todo-pro-web",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build --mode production",
+    "preview": "npm run build && vite preview",
+    "preview:dist": "vite preview",
+    "lint:all": "npm run lint:eslint && npm run lint:prettier && npm run lint:stylelint",
+    "lint:prettier": "prettier --cache --write --log-level warn \"src/**/*.{js,json,tsx,css,html,md}\"",
+    "lint:eslint": "eslint --fix \"src/**/*.{ts,tsx}\" --cache --cache-location node_modules/.cache/eslint/",
+    "lint:stylelint": "stylelint --fix \"**/*.css\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.67.2",
+    "@tanstack/react-router": "^1.97.1",
+    "@trpc/client": "^11.0.0-rc.828",
+    "@trpc/tanstack-react-query": "^11.0.0-rc.828",
+    "clsx": "2.1.1",
+    "i18next": "^24.0.0",
+    "i18next-browser-languagedetector": "^8.0.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-i18next": "^15.4.0",
+    "zustand": "5.0.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@tailwindcss/postcss": "^4.0.9",
+    "@tailwindcss/vite": "^4.0.9",
+    "@tanstack/router-plugin": "^1.97.1",
+    "@types/node": "20.8.10",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "autoprefixer": "10.4.20",
+    "daisyui": "^5.0.0",
+    "dotenv": "^16.4.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.14.0",
+    "husky": "^9.0.0",
+    "lint-staged": "15.3.0",
+    "postcss-load-config": "^6.0.0",
+    "postcss-styled-syntax": "^0.7.0",
+    "prettier": "3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "stylelint": "^16.15.0",
+    "stylelint-config-standard": "^37.0.0",
+    "stylelint-order": "6.0.4",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.26.0",
+    "vite": "^6.2.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=8"
+  }
+}
