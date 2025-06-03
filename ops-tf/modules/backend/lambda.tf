@@ -32,8 +32,8 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 # --- Lambda Function ---
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/lambda_payload/"
-  output_path = "${path.module}/lambda_payload.zip" # Terraform will create this zip
+  source_dir  = "${path.module}/../../artifacts/lambda/"
+  output_path = "${path.module}/../../artifacts/lambda/lambda_payload.zip" # Terraform will create this zip
 }
 
 resource "aws_lambda_function" "my_lambda" {
@@ -70,7 +70,7 @@ resource "aws_api_gateway_rest_api" "my_api" {
 }
 
 resource "aws_api_gateway_resource" "resource" {
-  path_part   = "api"
+  path_part   = "{proxy+}"
   parent_id   = aws_api_gateway_rest_api.my_api.root_resource_id
   rest_api_id = aws_api_gateway_rest_api.my_api.id
 }
@@ -98,7 +98,7 @@ resource "aws_lambda_permission" "apigw_lambda_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.my_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*/api"
+  source_arn    = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*/{proxy+}"
 }
 
 # --- API Gateway Deployment & Stage ---
@@ -108,14 +108,16 @@ resource "aws_api_gateway_deployment" "api_deployment" {
   lifecycle {
     create_before_destroy = true
   }
+
+  depends_on = [ aws_api_gateway_method.api_method_root ]
 }
 
 resource "aws_api_gateway_stage" "api_stage" {
-  deployment_id = aws_api_gateway_deployment.api_deployment.id
+  stage_name    = "v2"
   rest_api_id   = aws_api_gateway_rest_api.my_api.id
-  stage_name    = "v1" # Using a simple stage name like "v1" or "prod"
+  deployment_id = aws_api_gateway_deployment.api_deployment.id
 
   tags = {
-    Name = "${local.api_name}-v1"
+    Name = "${local.api_name}-v2"
   }
 }

@@ -4,10 +4,10 @@
   "description": "",
   "license": "ISC",
   "author": "",
-  "type": "module",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist/ && tsc",
     "dev": "APP_ENVIRONMENT=development NODE_ENV=development tsx src/local/server.ts",
     "client:test": "npx tsx src/local/client.ts"
   },

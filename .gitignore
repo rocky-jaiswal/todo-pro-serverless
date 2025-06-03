@@ -45,4 +45,4 @@ terraform.rc
 npm-debug.log
 **/.env
 
-ops-tf/modules/backend/lambda_payload.zip
+ops-tf/artifacts/lambda/lambda_payload.zip

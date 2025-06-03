@@ -11,7 +11,7 @@ const logger = pino();
 
 const server = createHTTPServer({
   router,
-  basePath: '/api/trpc/',
+  basePath: '/v2/',
   middleware: cors({
     origin: 'http://localhost:5173',
     optionsSuccessStatus: 200, // for legacy

@@ -1,15 +1,15 @@
 import pino from 'pino';
 
 import { type CreateAWSLambdaContextOptions } from '@trpc/server/adapters/aws-lambda';
-import { type APIGatewayProxyEventV2 } from 'aws-lambda';
+import { type APIGatewayProxyEvent } from 'aws-lambda';
 
 import { initTRPC, TRPCError } from '@trpc/server';
 import { validatetoken } from '../services/token';
 
 const logger = pino();
 
-export const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>) => {
-  const validated = await validatetoken(event.headers['x-auth-token']);
+export const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGatewayProxyEvent>) => {
+  const validated = await validatetoken(event && event.headers ? event.headers['x-auth-token'] : 'some-token');
 
   const session = { userId: validated?.id, token: validated?.jwt };
 
