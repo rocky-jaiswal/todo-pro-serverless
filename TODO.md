@@ -32,11 +32,12 @@
   - FE talks to Lambda in BE ✅
 - TF:
   - Cors for API ✅
-  - HTTP headers are going through right ⏭️
+  - HTTP headers are going through right ✅
   - Only allow request from FE URL
-- Read secrets in TS code correctly
+- Read secrets in TS code correctly ✅
 - Login with Google works
   - Correct Google OAuth config / secrets
 - Proper logging with "correlation-ids" etc.
   - Use AWS Cloudwatch for logging etc.
   - Log with JSON
+  - Do not log secrets

@@ -1,12 +1,17 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-type SecretKeys = 'GOOGLE_CLIENT_ID_V1' | 'GOOGLE_CLIENT_SECRET_V1';
+type SecretKeys =
+  | 'yetanotherapp-xyz/GOOGLE_CLIENT_ID_V1'
+  | 'yetanotherapp-xyz/GOOGLE_CLIENT_SECRET_V1'
+  | 'yetanotherapp-xyz/CERT_SECRET_V1';
 
 export class Secrets {
   private readonly secretManagerClient: SecretsManagerClient;
 
   constructor() {
-    this.secretManagerClient = new SecretsManagerClient();
+    this.secretManagerClient = new SecretsManagerClient({
+      region: 'eu-central-1',
+    });
   }
 
   public async getSecrets(secretKey: SecretKeys) {

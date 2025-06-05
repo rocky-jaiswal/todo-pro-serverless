@@ -1,9 +1,15 @@
 import { z } from 'zod';
 
 import { trpc, publicProcedure } from '../trpc';
+import { Secrets } from '../services/secrets';
 
 export const healthRouter = trpc.router({
-  ping: publicProcedure.query(() => {
+  ping: publicProcedure.query(async ({ ctx }) => {
+    ctx.logger.info('health check pinged ...');
+
+    const secrets = new Secrets();
+    await secrets.getSecrets('yetanotherapp-xyz/CERT_SECRET_V1');
+
     return { status: 'all good!' };
   }),
   greet: publicProcedure.input(z.object({ name: z.string() })).query(({ input }: any) => {
