@@ -8,7 +8,7 @@ export const healthRouter = trpc.router({
     ctx.logger.info('health check pinged ...');
 
     const secrets = new Secrets();
-    await secrets.getSecrets('yetanotherapp-xyz/CERT_SECRET_V1');
+    await secrets.getSecrets('GOOGLE_CLIENT_ID_V1');
 
     return { status: 'all good!' };
   }),

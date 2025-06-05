@@ -11,7 +11,7 @@
 ## Core app logic
 
 - Sharing types between frontend and backend ⏭️
-- DynamoDB local
+- DynamoDB local (docker) ✅
 - ElectroDB setup for DB (local and Lambda)
 - JWT setup works
 - Home page

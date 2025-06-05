@@ -1,9 +1,8 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-type SecretKeys =
-  | 'yetanotherapp-xyz/GOOGLE_CLIENT_ID_V1'
-  | 'yetanotherapp-xyz/GOOGLE_CLIENT_SECRET_V1'
-  | 'yetanotherapp-xyz/CERT_SECRET_V1';
+type SecretKeys = 'GOOGLE_CLIENT_ID_V1' | 'GOOGLE_CLIENT_SECRET_V1' | 'CERT_SECRET_V1';
+
+const AWS_NAMESPACE = 'yetanotherapp-xyz';
 
 export class Secrets {
   private readonly secretManagerClient: SecretsManagerClient;
@@ -21,7 +20,7 @@ export class Secrets {
 
     const response = await this.secretManagerClient.send(
       new GetSecretValueCommand({
-        SecretId: secretKey,
+        SecretId: `${AWS_NAMESPACE}/${secretKey}`,
       }),
     );
 
