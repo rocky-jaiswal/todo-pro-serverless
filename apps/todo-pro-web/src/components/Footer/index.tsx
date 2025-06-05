@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router';
-import * as React from 'react';
 
 const Footer = () => (
   <div className="flex flex-col justify-center items-center w-full p-6">

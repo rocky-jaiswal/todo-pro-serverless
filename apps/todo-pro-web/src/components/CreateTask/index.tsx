@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { api } from '../../api';
+import { trpc } from '../../api';
 
 interface Props {
   listId: string;
@@ -13,7 +13,7 @@ export const CreateTask = (props: Props) => {
   const [name, setName] = useState<string>('');
   const [dueBy, setDueDate] = useState<string | null>(null);
 
-  const createTaskListMutation = api.task.createTask.useMutation();
+  const createTaskListMutation = useMutation(trpc.tasks.createTask.mutationOptions());
 
   if (!displayForm) {
     return (
@@ -51,7 +51,7 @@ export const CreateTask = (props: Props) => {
           <button
             className="btn btn-success p-2 my-4"
             type="submit"
-            disabled={!name || createTaskListMutation.isLoading}
+            disabled={!name || createTaskListMutation.isPending}
             onClick={(e) => {
               e.preventDefault();
               createTaskListMutation
@@ -66,10 +66,10 @@ export const CreateTask = (props: Props) => {
                   setDueDate(null);
                   props.onTasksUpdate();
                 })
-                .catch((err) => console.error(err)); // TODO: Handle this error
+                .catch((err: unknown) => console.error(err)); // TODO: Handle this error
             }}
           >
-            {createTaskListMutation.isLoading ? <span className="loading loading-spinner loading-xs" /> : 'Add Todo'}
+            {createTaskListMutation.isPending ? <span className="loading loading-spinner loading-xs" /> : 'Add Todo'}
           </button>
         </div>
       </form>

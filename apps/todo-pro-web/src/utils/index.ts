@@ -6,7 +6,7 @@ const setLocalStorage = (key: string, value: any): void => {
   value && localStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
 };
 
-const getLocalStorage = <T>(key: string, isParse = false): T => {
+const getLocalStorage = <T>(key: string, isParse = false): T | string => {
   const cache = localStorage.getItem(`${keyBefore}${key}`) ?? '';
   return isParse ? JSON.parse(cache) : cache;
 };
@@ -15,7 +15,7 @@ const setSessionStorage = (key: string, value: any): void => {
   value && sessionStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
 };
 
-const getSessionStorage = <T>(key: string, isParse = false): T => {
+const getSessionStorage = <T>(key: string, isParse = false): T | string => {
   const cache = sessionStorage.getItem(`${keyBefore}${key}`) ?? '';
   return isParse ? JSON.parse(cache) : cache;
 };

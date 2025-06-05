@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { api } from '../../api';
+import { trpc } from '../../api';
 import { useAsync } from '../../hooks/useAsync';
 
 interface Props {
@@ -11,7 +12,7 @@ function LoginForm(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const createSessionMutation = api.sessions.createSession.useMutation();
+  const createSessionMutation = useMutation(trpc.sessions.createSession.mutationOptions());
 
   useAsync(async () => {
     // if (createSessionMutation.isSuccess) {
@@ -51,7 +52,7 @@ function LoginForm(props: Props) {
         <button
           type="submit"
           className="btn-primary btn"
-          disabled={createSessionMutation.isLoading}
+          disabled={createSessionMutation.isPending}
           onClick={(e) => {
             e.preventDefault();
             if (email && password) {
@@ -62,7 +63,7 @@ function LoginForm(props: Props) {
             }
           }}
         >
-          {createSessionMutation.isLoading ? <span className="loading loading-spinner loading-xs" /> : 'Login'}
+          {createSessionMutation.isPending ? <span className="loading loading-spinner loading-xs" /> : 'Login'}
         </button>
       </form>
       {/* <Link href={'/'} className="py-4 text-blue-500 underline">

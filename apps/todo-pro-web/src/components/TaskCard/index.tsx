@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Image from 'next/image';
+import { useMutation } from '@tanstack/react-query';
 
 import { differenceInCalendarDays, endOfToday, isBefore, isToday } from 'date-fns';
 
-import { type Task as TaskType } from '../../server/types';
-import { api } from '../../api';
+import { type Task as TaskType } from 'todo-pro-api/dist';
+import { trpc } from '../../api';
 import { EditTask } from '../EditTask';
 
 interface Props {
@@ -25,8 +25,8 @@ const daysDiff = (dueBy: Date) => {
 export const TaskCard = (props: Props) => {
   const [displayEditForm, setDisplayEditForm] = useState<boolean>(false);
 
-  const deleteTaskMutation = api.task.deleteTask.useMutation();
-  const markDoneMutation = api.task.markAsCompleted.useMutation();
+  const deleteTaskMutation = useMutation(trpc.tasks.deleteTask.mutationOptions());
+  const markDoneMutation = useMutation(trpc.tasks.markAsCompleted.mutationOptions());
 
   const { task } = props;
   const taskRef = React.useRef<HTMLDetailsElement | null>(null);
@@ -60,12 +60,12 @@ export const TaskCard = (props: Props) => {
       <div>
         <details className="dropdown dropdown-end" ref={taskRef}>
           <summary className="btn m-1">
-            <Image src="/dots.png" width={20} height={20} alt="actions" />
+            <img src="/dots.png" width={20} height={20} alt="actions" />
           </summary>
           <ul className="menu dropdown-content bg-[#2f3389] rounded-box z-[1] w-52 p-2 shadow">
             <li style={task.completed ? { display: 'none' } : {}}>
               <button
-                disabled={task.completed || markDoneMutation.isLoading}
+                disabled={task.completed || markDoneMutation.isPending}
                 onClick={(e) => {
                   e.preventDefault();
                   taskRef.current && taskRef.current.removeAttribute('open');
@@ -74,7 +74,7 @@ export const TaskCard = (props: Props) => {
                       id: task.id,
                     })
                     .then(() => props.onTasksUpdate())
-                    .catch((err) => console.error(err)); // TODO: Handle this error
+                    .catch((err: unknown) => console.error(err)); // TODO: Handle this error
                 }}
               >
                 Mark done
@@ -85,7 +85,7 @@ export const TaskCard = (props: Props) => {
             </li>
             <li>
               <button
-                disabled={deleteTaskMutation.isLoading}
+                disabled={deleteTaskMutation.isPending}
                 onClick={(e) => {
                   e.preventDefault();
                   taskRef.current && taskRef.current.removeAttribute('open');
@@ -94,7 +94,7 @@ export const TaskCard = (props: Props) => {
                       id: task.id,
                     })
                     .then(() => props.onTasksUpdate())
-                    .catch((err) => console.error(err)); // TODO: Handle this error
+                    .catch((err: unknown) => console.error(err)); // TODO: Handle this error
                 }}
               >
                 Delete

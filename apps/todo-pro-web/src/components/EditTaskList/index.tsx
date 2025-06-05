@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { api } from '../../api';
+import { trpc } from '../../api';
 
 interface Props {
   listId: string;
@@ -15,7 +15,7 @@ interface Props {
 export const EditTaskList = (props: Props) => {
   const [name, setName] = useState<string>(props.listName);
   const [description, setDescription] = useState<string>(props.listDescription);
-  const editTaskListMutation = api.taskList.editList.useMutation();
+  const editTaskListMutation = useMutation(trpc.taskLists.editList.mutationOptions());
 
   return (
     <div className="flex flex-col max-w-96 my-6">
@@ -56,7 +56,7 @@ export const EditTaskList = (props: Props) => {
                 props.onListUpdate();
                 props.onListsUpdate();
               })
-              .catch((err) => console.error(err)); // TODO: Handle this error
+              .catch((err: unknown) => console.error(err)); // TODO: Handle this error
           }}
         >
           Update List

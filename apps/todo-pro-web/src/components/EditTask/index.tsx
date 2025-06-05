@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { useState } from 'react';
 import { format } from 'date-fns';
+import { useMutation } from '@tanstack/react-query';
 
-import { type Task as TaskType } from '../../server/types';
-import { api } from '../../api';
+import { type Task as TaskType } from 'todo-pro-api/dist';
+import { trpc } from '../../api';
 
 interface Props {
   task: TaskType;
@@ -15,7 +15,7 @@ export const EditTask = (props: Props) => {
   const [name, setName] = useState<string>(props.task.name);
   const [dueBy, setDueDate] = useState<string | null>(props.task.dueBy ? format(props.task.dueBy, 'yyyy-MM-dd') : null);
 
-  const updateTaskMutation = api.task.updateTask.useMutation();
+  const updateTaskMutation = useMutation(trpc.tasks.updateTask.mutationOptions());
 
   return (
     <div className="flex flex-col items-end">
@@ -43,7 +43,7 @@ export const EditTask = (props: Props) => {
           <button
             className="btn btn-success"
             type="submit"
-            disabled={!name || updateTaskMutation.isLoading}
+            disabled={!name || updateTaskMutation.isPending}
             onClick={(e) => {
               e.preventDefault();
               props.setDisplayEditForm(false);
@@ -57,10 +57,10 @@ export const EditTask = (props: Props) => {
                 .then(() => {
                   props.onTasksUpdate();
                 })
-                .catch((err) => console.error(err)); // TODO: Handle this error
+                .catch((err: unknown) => console.error(err)); // TODO: Handle this error
             }}
           >
-            {updateTaskMutation.isLoading ? <span className="loading loading-spinner loading-xs" /> : 'Update Todo'}
+            {updateTaskMutation.isPending ? <span className="loading loading-spinner loading-xs" /> : 'Update Todo'}
           </button>
           <button className="btn btn-outline btn-ghost ml-4" onClick={() => props.setDisplayEditForm(false)}>
             Cancel

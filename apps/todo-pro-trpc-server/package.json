@@ -15,7 +15,7 @@
     "@aws-sdk/client-api-gateway": "^3.758.0",
     "@aws-sdk/client-lambda": "^3.758.0",
     "@aws-sdk/client-secrets-manager": "^3.821.0",
-    "@trpc/server": "^11.0.0-rc.824",
+    "@trpc/server": "^11.3.0",
     "build": "^0.1.4",
     "google-auth-library": "^9.15.1",
     "pino": "^9.6.0",

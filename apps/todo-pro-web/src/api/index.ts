@@ -2,37 +2,12 @@ import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
 import { QueryClient } from '@tanstack/react-query';
 
-import { type AppRouter } from 'todo-pro-api/dist/src';
+import { type AppRouter } from 'todo-pro-api/dist';
 
-// This is dummy api for now
-export const api = {
-  sessions: {
-    createSession: {
-      useMutation: () => ({
-        mutate: (_x) => {},
-        data: {},
-        isLoading: false,
-        isSuccess: true,
-        isError: false,
-        error: { message: '' },
-      }),
-    },
-  },
-  users: {
-    createUser: {
-      useMutation: () => ({
-        mutate: (_x) => {},
-        data: {},
-        isLoading: false,
-        isSuccess: true,
-        isError: false,
-        error: { message: '' },
-      }),
-    },
-  },
+const getHeaders = () => {
+  // TODO: Get / Set JWT
+  return { 'content-type': 'application/json' };
 };
-
-const getHeaders = () => ({});
 
 const trpcClient = createTRPCClient<AppRouter>({
   links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Image from 'next/image';
+import { useMutation } from '@tanstack/react-query';
 
-import { type TaskList as TaskListType } from '../../server/types';
-import { api } from '../../api';
+import { type TaskList as TaskListType } from 'todo-pro-api/dist';
+import { trpc } from '../../api';
 import { EditTaskList } from '../EditTaskList';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 
 export const ListDisplay = (props: Props) => {
   const [displayEditForm, setDisplayEditForm] = useState<boolean>(false);
-  const deleteListMutation = api.taskList.deleteList.useMutation();
+  const deleteListMutation = useMutation(trpc.taskLists.deleteList.mutationOptions());
   const detailsRef = React.useRef<HTMLDetailsElement | null>(null);
 
   if (displayEditForm) {
@@ -41,7 +41,7 @@ export const ListDisplay = (props: Props) => {
       <div>
         <details className="dropdown dropdown-end" ref={detailsRef}>
           <summary className="btn m-1">
-            <Image src="/dots.png" width={20} height={20} alt="actions" />
+            <img src="/dots.png" width={20} height={20} alt="actions" />
           </summary>
           <ul className="menu dropdown-content bg-[#2f3389] rounded-box z-[1] w-52 p-2 shadow">
             <li>
@@ -49,7 +49,7 @@ export const ListDisplay = (props: Props) => {
             </li>
             <li>
               <button
-                disabled={deleteListMutation.isLoading}
+                disabled={deleteListMutation.isPending}
                 onClick={(e) => {
                   e.preventDefault();
                   detailsRef.current && detailsRef.current.removeAttribute('open');
@@ -61,7 +61,7 @@ export const ListDisplay = (props: Props) => {
                       props.onListsUpdate();
                       props.setSelectedList(null);
                     })
-                    .catch((err) => console.error(err)); // TODO: Handle this error
+                    .catch((err: unknown) => console.error(err)); // TODO: Handle this error
                 }}
               >
                 Delete

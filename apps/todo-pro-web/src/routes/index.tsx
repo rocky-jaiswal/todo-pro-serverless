@@ -15,7 +15,7 @@ interface ShowLogin {
   showLogin: boolean;
 }
 
-const Home: React.FC = () => {
+const Root: React.FC = () => {
   const [display, setDisplay] = useState<ShowLogin>({ showLogin: true });
   const healthQuery = useQuery(trpc.health.ping.queryOptions());
 
@@ -45,5 +45,5 @@ const Home: React.FC = () => {
 };
 
 export const Route = createFileRoute('/')({
-  component: Home,
+  component: Root,
 });

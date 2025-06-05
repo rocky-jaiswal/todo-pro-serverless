@@ -1,11 +1,9 @@
-import * as React from 'react'
-
-import { type TaskList as TaskListType } from '../../server/types'
+import { type TaskList as TaskListType } from 'todo-pro-api/dist';
 
 interface Props {
-  listData: TaskListType[]
-  selectedList: string
-  setSelectedList: (listId: string) => void
+  listData: TaskListType[];
+  selectedList: string;
+  setSelectedList: (listId: string) => void;
 }
 
 export const TaskListIndex = (props: Props) => {
@@ -21,8 +19,8 @@ export const TaskListIndex = (props: Props) => {
               {list.name}
             </button>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};

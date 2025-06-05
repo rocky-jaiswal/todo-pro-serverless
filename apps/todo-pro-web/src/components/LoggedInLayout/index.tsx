@@ -1,16 +1,14 @@
-import { type ReactElement } from 'react'
+import { type ReactElement } from 'react';
 
-import AppHeader from '../AppHeader'
-import TopBar from '../TopBar'
+import TopBar from '../TopBar';
 
 interface Props {
-  page: ReactElement
+  page: ReactElement;
 }
 
 function LoggedInLayout(props: Props) {
   return (
     <div className="flex items-start justify-center">
-      <AppHeader />
       <div className="flex flex-col min-h-screen lg:w-9/12 max-w-7xl">
         <TopBar />
         <div className="flex h-full w-full grow flex-col lg:flex-row">
@@ -20,7 +18,7 @@ function LoggedInLayout(props: Props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default LoggedInLayout
+export default LoggedInLayout;

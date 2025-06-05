@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { api } from '../../api';
+import { trpc } from '../../api';
 import { useAsync } from '../../hooks/useAsync';
 
 interface Props {
@@ -11,7 +12,7 @@ function RegistrationForm(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmedPassword, setConfirmedPassword] = useState<string>('');
-  const createUserMutation = api.users.createUser.useMutation();
+  const createUserMutation = useMutation(trpc.users.createUser.mutationOptions());
 
   useAsync(async () => {
     // if (createUserMutation.isSuccess) {
@@ -57,7 +58,7 @@ function RegistrationForm(props: Props) {
         <button
           type="submit"
           className="btn-success btn"
-          disabled={createUserMutation.isLoading}
+          disabled={createUserMutation.isPending}
           onClick={(e) => {
             e.preventDefault();
             if (email && password && confirmedPassword) {

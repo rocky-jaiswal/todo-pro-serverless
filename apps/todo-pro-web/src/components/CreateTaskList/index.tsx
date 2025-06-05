@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { api } from '../../api';
+import { trpc } from '../../api';
 
 interface Props {
   displayCreateListForm: boolean;
@@ -13,7 +13,7 @@ interface Props {
 export const CreateTaskList = (props: Props) => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const createTaskListMutation = api.taskList.createTaskList.useMutation();
+  const createTaskListMutation = useMutation(trpc.taskLists.createTaskList.mutationOptions());
 
   if (!props.displayCreateListForm) {
     return <div />;
@@ -33,7 +33,7 @@ export const CreateTaskList = (props: Props) => {
         <button
           className="btn btn-primary p-2 my-4"
           type="submit"
-          disabled={!name || createTaskListMutation.isLoading}
+          disabled={!name || createTaskListMutation.isPending}
           onClick={(e) => {
             e.preventDefault();
             createTaskListMutation
@@ -41,12 +41,12 @@ export const CreateTaskList = (props: Props) => {
                 name,
                 description,
               })
-              .then((response: { id: string }) => {
+              .then((_response: unknown) => {
                 // props.setCreateListFormDisplay(false)
                 props.onListsUpdate();
-                props.setSelectedList(response.id);
+                // props.setSelectedList(response.id);
               })
-              .catch((err) => console.error(err)); // TODO: Handle this error
+              .catch((err: unknown) => console.error(err)); // TODO: Handle this error
           }}
         >
           Create List

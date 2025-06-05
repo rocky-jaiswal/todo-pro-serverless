@@ -11,11 +11,25 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LogoutImport } from './routes/logout'
+import { Route as HomeImport } from './routes/home'
 import { Route as GoogleCallbackImport } from './routes/googleCallback'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const LogoutRoute = LogoutImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomeRoute = HomeImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const GoogleCallbackRoute = GoogleCallbackImport.update({
   id: '/googleCallback',
@@ -60,6 +74,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleCallbackImport
       parentRoute: typeof rootRoute
     }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeImport
+      parentRoute: typeof rootRoute
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +97,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/googleCallback': typeof GoogleCallbackRoute
+  '/home': typeof HomeRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/googleCallback': typeof GoogleCallbackRoute
+  '/home': typeof HomeRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +114,16 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/googleCallback': typeof GoogleCallbackRoute
+  '/home': typeof HomeRoute
+  '/logout': typeof LogoutRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/googleCallback'
+  fullPaths: '/' | '/about' | '/googleCallback' | '/home' | '/logout'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/googleCallback'
-  id: '__root__' | '/' | '/about' | '/googleCallback'
+  to: '/' | '/about' | '/googleCallback' | '/home' | '/logout'
+  id: '__root__' | '/' | '/about' | '/googleCallback' | '/home' | '/logout'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +131,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   GoogleCallbackRoute: typeof GoogleCallbackRoute
+  HomeRoute: typeof HomeRoute
+  LogoutRoute: typeof LogoutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   GoogleCallbackRoute: GoogleCallbackRoute,
+  HomeRoute: HomeRoute,
+  LogoutRoute: LogoutRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +155,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/googleCallback"
+        "/googleCallback",
+        "/home",
+        "/logout"
       ]
     },
     "/": {
@@ -128,6 +168,12 @@ export const routeTree = rootRoute
     },
     "/googleCallback": {
       "filePath": "googleCallback.tsx"
+    },
+    "/home": {
+      "filePath": "home.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     }
   }
 }

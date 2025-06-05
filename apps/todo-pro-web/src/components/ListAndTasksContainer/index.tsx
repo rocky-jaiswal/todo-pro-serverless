@@ -1,28 +1,27 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as React from 'react'
-import { useState } from 'react'
+import { useState } from 'react';
 
-import { type TaskList as TaskListType } from '../../server/types'
-import { type Task as TaskType } from '../../server/types'
+import { type TaskList as TaskListType } from 'todo-pro-api/dist';
+import { type Task as TaskType } from 'todo-pro-api/dist';
 
-import { TaskListWithTaskIndex } from '../TaskListWithTaskIndex'
-import { CreateTaskList } from '../CreateTaskList'
-import { TaskListIndex } from '../TaskListIndex'
+import { TaskListWithTaskIndex } from '../TaskListWithTaskIndex';
+import { CreateTaskList } from '../CreateTaskList';
+import { TaskListIndex } from '../TaskListIndex';
 
 interface Props {
-  listData: TaskListType[]
-  taskListData: TaskListType
-  selectedList: string
-  taskData: TaskType[]
+  listData: TaskListType[];
+  taskListData: TaskListType;
+  selectedList: string;
+  taskData: TaskType[];
 
-  onListsUpdate: () => unknown
-  onListUpdate: () => unknown
-  onTasksUpdate: () => unknown
-  setSelectedList: (id: string | null) => unknown
+  onListsUpdate: () => unknown;
+  onListUpdate: () => unknown;
+  onTasksUpdate: () => unknown;
+  setSelectedList: (id: string | null) => unknown;
 }
 
 export const ListAndTasksContainer = (props: Props) => {
-  const [displayForm, setDisplayForm] = useState<boolean>(false)
+  const [displayForm, setDisplayForm] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col justify-between	min-w-full">
@@ -32,10 +31,7 @@ export const ListAndTasksContainer = (props: Props) => {
           selectedList={props.selectedList}
           setSelectedList={props.setSelectedList}
         />
-        <button
-          className="btn btn-primary"
-          onClick={() => setDisplayForm(!displayForm)}
-        >
+        <button className="btn btn-primary" onClick={() => setDisplayForm(!displayForm)}>
           {displayForm ? 'Cancel' : 'Add List'}
         </button>
       </div>
@@ -53,5 +49,5 @@ export const ListAndTasksContainer = (props: Props) => {
         setSelectedList={props.setSelectedList}
       />
     </div>
-  )
-}
+  );
+};

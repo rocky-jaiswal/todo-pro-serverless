@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import { useAsync } from '../../hooks/useAsync';
+import { useRouter } from '@tanstack/react-router';
 
 // import { api } from '../../api'
 
@@ -13,7 +12,7 @@ function TopBar() {
 
   useAsync(async () => {
     if (isLoggedOut) {
-      await router.push('/logout');
+      await router.navigate({ to: '/' });
     }
   });
 
