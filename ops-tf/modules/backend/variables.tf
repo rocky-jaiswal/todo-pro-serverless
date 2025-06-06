@@ -13,11 +13,6 @@ variable "environment" {
 variable "my_app_secrets" {
   description = "secrets for the app"
   type        = map(string)
-  default = {
-    GOOGLE_CLIENT_ID_V1       = "dummy"
-    GOOGLE_CLIENT_PASSWORD_V1 = "dummy"
-    CERT_SECRET_V1            = "dummy"
-  }
 }
 
 variable "tags" {

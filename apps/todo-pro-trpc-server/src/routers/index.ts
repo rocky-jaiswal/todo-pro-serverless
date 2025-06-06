@@ -8,8 +8,8 @@ import { usersRouter } from './users';
 
 export const router = trpc.router({
   health: healthRouter,
-  sessions: sessionsRouter,
   users: usersRouter,
+  sessions: sessionsRouter,
   home: homeRouter,
   taskLists: taskListsRouter,
   tasks: tasksRouter,

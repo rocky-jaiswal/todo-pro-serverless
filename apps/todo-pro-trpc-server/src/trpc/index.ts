@@ -2,27 +2,31 @@ import pino from 'pino';
 
 import { type CreateAWSLambdaContextOptions } from '@trpc/server/adapters/aws-lambda';
 import { type APIGatewayProxyEvent } from 'aws-lambda';
-
+import { type JwtPayload } from 'jsonwebtoken';
 import { initTRPC, TRPCError } from '@trpc/server';
-import { validatetoken } from '../services/token';
+
+import { JWToken } from '../services/token';
 
 const logger = pino();
 
 export const createContext = async ({ event }: CreateAWSLambdaContextOptions<APIGatewayProxyEvent>) => {
-  const validated = await validatetoken(event && event.headers ? event.headers['x-auth-token'] : 'some-token');
+  let token = null;
+  const userId: string = '';
 
-  const session = { userId: validated?.id, token: validated?.jwt };
+  if (event.headers && event.headers['x-auth-token']) {
+    token = event.headers['x-auth-token'];
+  }
 
   return {
     event: event,
     apiVersion: (event as { version?: string }).version ?? '1.0',
-    session,
+    token,
     logger,
+    userId,
   };
 };
 
 type Context = Awaited<ReturnType<typeof createContext>>;
-
 export const trpc = initTRPC.context<Context>().create();
 
 const loggerMiddleware = trpc.middleware(async ({ ctx, next }) => {
@@ -34,13 +38,26 @@ const loggerMiddleware = trpc.middleware(async ({ ctx, next }) => {
 });
 
 const enforceUserIsAuthenticated = trpc.middleware(async ({ ctx, next }) => {
-  if (!ctx.session.userId || !ctx.session.token) {
+  if (!ctx.token || ctx.token.trim() === '') {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  return next({
-    ctx,
-  });
+  try {
+    const jwt = new JWToken();
+    const payload = await jwt.validateToken(ctx.token);
+
+    const userId = (payload as JwtPayload).sub;
+
+    return next({
+      ctx: {
+        ...ctx,
+        userId,
+      },
+    });
+  } catch (err: unknown) {
+    ctx.logger.error(err);
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
 });
 
 export const publicProcedure = trpc.procedure.use(loggerMiddleware);

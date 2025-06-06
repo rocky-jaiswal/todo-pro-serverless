@@ -20,7 +20,6 @@ export const sessionsRouter = trpc.router({
 
   getGoogleUrl: publicProcedure.query(async ({ ctx }) => {
     try {
-      // ctx.logger.info('------------->');
       const googleOAuthClient = new GoogleOAuthClient();
 
       return googleOAuthClient.generateAuthUrl();

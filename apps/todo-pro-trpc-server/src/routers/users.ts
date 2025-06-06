@@ -18,7 +18,8 @@ export const usersRouter = trpc.router({
         const googleOAuthClient = new GoogleOAuthClient();
         const email = await googleOAuthClient.getEmailFromAuthCode(input.code);
 
-        // TODO: Create or get auth token by user email
+        // TODO: Find or create user by email
+        // TODOD: Create or get auth token by user id
         return email;
       } catch (err) {
         ctx.logger.error(err);

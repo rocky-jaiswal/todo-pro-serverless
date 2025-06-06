@@ -1,6 +1,6 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-type SecretKeys = 'GOOGLE_CLIENT_ID_V1' | 'GOOGLE_CLIENT_SECRET_V1' | 'CERT_SECRET_V1';
+type SecretKeys = 'GOOGLE_CLIENT_ID_V1' | 'GOOGLE_CLIENT_SECRET_V1' | 'CERT_SECRET_V1' | 'KEY_ID_V1' | 'TEST_SECRET_V2';
 
 const AWS_NAMESPACE = 'yetanotherapp-xyz';
 

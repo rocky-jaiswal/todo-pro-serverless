@@ -19,9 +19,9 @@ const server = createHTTPServer({
   createContext: (event: any) => ({
     event,
     apiVersion: '1.0',
-    jwt: '',
     logger,
-    session: { token: '', userId: '' },
+    token: '',
+    userId: '',
   }),
 });
 

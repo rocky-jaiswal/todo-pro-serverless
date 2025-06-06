@@ -10,17 +10,25 @@
 
 ## Core app logic
 
-- Sharing types between frontend and backend ⏭️
 - DynamoDB local (docker) ✅
+- Sharing types between frontend and backend ⏭️
+- JWT setup works ⏭️
 - ElectroDB setup for DB (local and Lambda)
-- JWT setup works
+- User registration
+  - Social Login
+  - Register new user with email + password
+  - Login with email + password works
 - Home page
 - Users - Create, Read
 - Sessions - Create, Read
 - TaskLists - Create, List, Read
 - Tasks - Create, List, Read
-- User registration / Social Login / Login with email + password works
 - 40x vs 50x errors
+- Error handling
+  - Log errors + stacktrace
+  - Do not leak stacktrace
+  - Clear error messages
+  - Handle errors on client side (e.g. health check) and show message / alerts
 - Unit testing
 - Integration testing
 - PWA frontend
@@ -37,7 +45,8 @@
 - Read secrets in TS code correctly ✅
 - Login with Google works
   - Correct Google OAuth config / secrets
-- Proper logging with "correlation-ids" etc.
+- Proper logging
+  - With "correlation-ids" etc.
   - Use AWS Cloudwatch for logging etc.
   - Log with JSON
   - Do not log secrets

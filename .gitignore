@@ -46,3 +46,4 @@ npm-debug.log
 **/.env
 
 ops-tf/artifacts/lambda/lambda_payload.zip
+apps/todo-pro-trpc-server/src/keys/private.pem

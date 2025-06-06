@@ -35,6 +35,8 @@ variable "my_app_secrets" {
     GOOGLE_CLIENT_ID_V1       = "dummy"
     GOOGLE_CLIENT_PASSWORD_V1 = "dummy"
     CERT_SECRET_V1            = "dummy"
+    KEY_ID_V1                 = "dummy"
+    TEST_SECRET_V2            = "dummy"
   }
 }
 
