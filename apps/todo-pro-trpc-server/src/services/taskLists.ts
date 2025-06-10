@@ -33,6 +33,16 @@ export class TaskListsService {
     }
   }
 
+  public async editTaskList(userId: string, listId: string, title: string, description?: string) {
+    const list = await this.findListById(userId, listId);
+
+    if (list) {
+      await this.taskListRepo.editTaskList(userId, listId, title, description);
+    }
+
+    return this.findListById(userId, listId);
+  }
+
   private toDTO(taskList: any): TaskList {
     return {
       listId: taskList.listId,
@@ -40,6 +50,4 @@ export class TaskListsService {
       listDescription: taskList.listDescription,
     };
   }
-
-  // public async editTaskList(listId: string, title: string, description?: string) {}
 }

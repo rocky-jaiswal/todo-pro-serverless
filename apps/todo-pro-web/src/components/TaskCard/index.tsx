@@ -32,7 +32,7 @@ export const TaskCard = (props: Props) => {
   const taskRef = React.useRef<HTMLDetailsElement | null>(null);
 
   if (displayEditForm) {
-    return <EditTask task={props.task} setDisplayEditForm={setDisplayEditForm} onTasksUpdate={props.onTasksUpdate} />;
+    return <EditTask task={task} setDisplayEditForm={setDisplayEditForm} onTasksUpdate={props.onTasksUpdate} />;
   }
 
   return (

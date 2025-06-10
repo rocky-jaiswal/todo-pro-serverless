@@ -12,8 +12,10 @@ interface Props {
 }
 
 export const EditTask = (props: Props) => {
-  const [name, setName] = useState<string>(props.task.name);
-  const [dueBy, setDueDate] = useState<string | null>(props.task.dueBy ? format(props.task.dueBy, 'yyyy-MM-dd') : null);
+  const [name, setName] = useState<string>(props.task.taskTitle);
+  const [dueBy, setDueDate] = useState<string | null>(
+    props.task.taskDueBy ? format(props.task.taskDueBy, 'yyyy-MM-dd') : null,
+  );
 
   const updateTaskMutation = useMutation(trpc.tasks.updateTask.mutationOptions());
 
@@ -49,9 +51,9 @@ export const EditTask = (props: Props) => {
               props.setDisplayEditForm(false);
               updateTaskMutation
                 .mutateAsync({
-                  id: props.task.id,
+                  taskId: props.task.taskId,
+                  listId: props.task.listId,
                   name,
-                  description: null,
                   dueBy,
                 })
                 .then(() => {

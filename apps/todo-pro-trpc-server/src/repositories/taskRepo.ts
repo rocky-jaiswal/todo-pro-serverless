@@ -41,5 +41,16 @@ export class TasksRepository {
       .go();
   }
 
-  // public async markTaskAsCompleted(taskId: string) {}
+  public async editTask(userId: string, listId: string, taskId: string, taskTitle: string, taskDueBy?: string) {
+    await Task.patch({
+      userId,
+      listId,
+      taskId,
+    })
+      .set({
+        taskTitle,
+        taskDueBy,
+      })
+      .go();
+  }
 }

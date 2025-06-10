@@ -46,6 +46,11 @@
   - HTTP headers are going through right ✅
   - Only allow request from FE URL
 - Read secrets in TS code correctly ✅
+- Setup
+  - Set secrets
+  - DynamoDB setup
+  - DynamoDB columns
+  - Google OAuth setup
 - Login with Google works
   - Correct Google OAuth config / secrets
 - Proper logging

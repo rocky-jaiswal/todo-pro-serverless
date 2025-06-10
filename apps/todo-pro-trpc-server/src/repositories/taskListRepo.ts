@@ -34,5 +34,15 @@ export class TaskListRepository {
     await TaskList.delete({ userId, listId }).go();
   }
 
-  // public async editTaskList(listId: string, title: string, description?: string) {}
+  public async editTaskList(userId: string, listId: string, title: string, description?: string) {
+    await TaskList.patch({
+      userId,
+      listId,
+    })
+      .set({
+        listTitle: title,
+        listDescription: description,
+      })
+      .go();
+  }
 }

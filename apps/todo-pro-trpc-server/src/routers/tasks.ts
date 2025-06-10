@@ -29,7 +29,7 @@ export const tasksRouter = trpc.router({
     .input(
       z.object({
         listId: z.string().uuid(),
-        name: z.string().min(1).max(50),
+        name: z.string().min(1).max(150),
         dueBy: z.string().date().nullable(),
       }),
     )
@@ -89,15 +89,29 @@ export const tasksRouter = trpc.router({
   updateTask: protectedProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
-        name: z.string().min(1).max(50),
-        description: z.string().max(150).nullable(),
+        listId: z.string().uuid(),
+        taskId: z.string().uuid(),
+        name: z.string().min(1).max(150),
         dueBy: z.string().date().nullable(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      ctx.logger.info({ ctx, input });
+      try {
+        const repo = new TasksRepository();
+        const service = new TasksService(repo);
 
-      return {};
+        const task = await service.editTask(
+          ctx.userId,
+          input.listId,
+          input.taskId,
+          input.name,
+          input.dueBy ?? undefined,
+        );
+
+        return task;
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
     }),
 });

@@ -27,7 +27,15 @@ export class TasksService {
     return this.toDTO(task);
   }
 
-  // public async editTask(taskId: string, name: string, description?: string, dueBy?: string) {}
+  public async editTask(userId: string, listId: string, taskId: string, name: string, dueBy?: string) {
+    const task = await this.findTaskById(userId, taskId);
+
+    if (task) {
+      await this.tasksRepository.editTask(userId, listId, taskId, name, dueBy);
+    }
+
+    return this.findTaskById(userId, taskId);
+  }
 
   public async markAsCompleted(userId: string, listId: string, taskId: string) {
     const task = await this.findTaskById(userId, taskId);
