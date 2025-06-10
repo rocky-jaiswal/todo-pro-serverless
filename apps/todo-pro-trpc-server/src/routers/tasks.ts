@@ -30,7 +30,6 @@ export const tasksRouter = trpc.router({
       z.object({
         listId: z.string().uuid(),
         name: z.string().min(1).max(50),
-        description: z.string().max(150).nullable(),
         dueBy: z.string().date().nullable(),
       }),
     )
@@ -39,9 +38,29 @@ export const tasksRouter = trpc.router({
         const repo = new TasksRepository();
         const service = new TasksService(repo);
 
-        const task = await service.createTask(ctx.userId, input.listId, input.name, input.description ?? undefined);
+        const task = await service.createTask(ctx.userId, input.listId, input.name, input.dueBy ?? undefined);
 
         return task;
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+    }),
+  deleteTask: protectedProcedure
+    .input(
+      z.object({
+        listId: z.string().uuid(),
+        taskId: z.string().uuid(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const repo = new TasksRepository();
+        const service = new TasksService(repo);
+
+        await service.deleteTask(ctx.userId, input.listId, input.taskId);
+
+        return {};
       } catch (err: unknown) {
         ctx.logger.error(err);
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
@@ -50,24 +69,22 @@ export const tasksRouter = trpc.router({
   markAsCompleted: protectedProcedure
     .input(
       z.object({
-        id: z.string().uuid(),
+        listId: z.string().uuid(),
+        taskId: z.string().uuid(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      ctx.logger.info({ ctx, input });
+      try {
+        const repo = new TasksRepository();
+        const service = new TasksService(repo);
 
-      return {};
-    }),
-  deleteTask: protectedProcedure
-    .input(
-      z.object({
-        id: z.string().uuid(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      ctx.logger.info({ ctx, input });
+        const task = await service.markAsCompleted(ctx.userId, input.listId, input.taskId);
 
-      return {};
+        return task;
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
     }),
   updateTask: protectedProcedure
     .input(

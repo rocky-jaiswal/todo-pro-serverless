@@ -7,6 +7,7 @@ import { resolve } from 'path'; // dotenv is a "zero-dependent" module that extr
 import dotenv from 'dotenv';
 import React from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
@@ -21,6 +22,57 @@ const baseConfig = {
     }),
     React(),
     tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false,
+      },
+      manifest: {
+        name: 'To-do Pro',
+        short_name: 'To-do Pro',
+        description: 'To-do Pro',
+        theme_color: '#1d232a',
+        icons: [
+          {
+            src: 'favicons/pwa-64x64.png',
+            sizes: '96x96',
+            type: 'image/png',
+          },
+          {
+            src: 'favicons/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'favicons/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: 'favicons/maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: 'screenshot-512.png', // add desktop sreenshot
+            sizes: '512x512',
+            type: 'image/png',
+            form_factor: 'wide',
+            label: 'To-do Pro',
+          },
+          {
+            src: 'screenshot-512.png', // add mobile screenshot
+            sizes: '512x512',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'To-do Pro',
+          },
+        ],
+      },
+    }),
   ],
   resolve: {
     alias: [

@@ -71,7 +71,8 @@ export const TaskCard = (props: Props) => {
                   taskRef.current && taskRef.current.removeAttribute('open');
                   markDoneMutation
                     .mutateAsync({
-                      id: task.taskId,
+                      listId: task.listId,
+                      taskId: task.taskId,
                     })
                     .then(() => props.onTasksUpdate())
                     .catch((err: unknown) => console.error(err)); // TODO: Handle this error
@@ -91,7 +92,8 @@ export const TaskCard = (props: Props) => {
                   taskRef.current && taskRef.current.removeAttribute('open');
                   deleteTaskMutation
                     .mutateAsync({
-                      id: task.taskId,
+                      taskId: task.taskId,
+                      listId: task.listId,
                     })
                     .then(() => props.onTasksUpdate())
                     .catch((err: unknown) => console.error(err)); // TODO: Handle this error

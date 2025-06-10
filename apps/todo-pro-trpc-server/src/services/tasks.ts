@@ -18,7 +18,7 @@ export class TasksService {
   public async findTaskById(userId: string, taskId: string) {
     const task = await this.tasksRepository.findTaskById(userId, taskId);
 
-    return this.toDTO(task[0]);
+    return task[0] ? this.toDTO(task[0]) : null;
   }
 
   public async createTask(userId: string, listId: string, title: string, dueBy?: string) {
@@ -29,9 +29,22 @@ export class TasksService {
 
   // public async editTask(taskId: string, name: string, description?: string, dueBy?: string) {}
 
-  // public async markTaskAsCompleted(taskId: string) {}
+  public async markAsCompleted(userId: string, listId: string, taskId: string) {
+    const task = await this.findTaskById(userId, taskId);
 
-  // public async deleteTask(taskId: string) {}
+    if (task) {
+      await this.tasksRepository.markAsCompleted(userId, listId, taskId);
+    }
+
+    return this.findTaskById(userId, taskId);
+  }
+
+  public async deleteTask(userId: string, listId: string, taskId: string) {
+    const task = await this.findTaskById(userId, taskId);
+    if (task) {
+      await this.tasksRepository.deleteTask(userId, listId, taskId);
+    }
+  }
 
   private toDTO(task: any): Task {
     return {

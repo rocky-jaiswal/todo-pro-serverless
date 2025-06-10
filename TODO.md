@@ -26,12 +26,12 @@
 - Tasks - Create, List, Read, Edit, Delete
 - Check auth for edit / delete
 - 40x vs 50x errors
+- Clean logout
 - Error handling
   - Log errors + stacktrace
   - Do not leak stacktrace
   - Clear error messages
   - Handle errors on client side (e.g. health check) and show message / alerts
-- Clean logout
 - Unit testing
 - Integration testing
 - PWA frontend

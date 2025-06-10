@@ -29,7 +29,17 @@ export class TasksRepository {
     await Task.delete({ userId, listId, taskId }).go();
   }
 
-  // public async editTask(taskId: string, name: string, description?: string, dueBy?: string) {}
+  public async markAsCompleted(userId: string, listId: string, taskId: string) {
+    await Task.patch({
+      userId,
+      listId,
+      taskId,
+    })
+      .set({
+        taskCompleted: true,
+      })
+      .go();
+  }
 
   // public async markTaskAsCompleted(taskId: string) {}
 }

@@ -14,10 +14,10 @@ export class TaskListsService {
     return lists.map(this.toDTO);
   }
 
-  public async findListById(userId: string, listId: string): Promise<TaskList> {
+  public async findListById(userId: string, listId: string): Promise<TaskList | null> {
     const list = await this.taskListRepo.findListById(userId, listId);
 
-    return this.toDTO(list[0]);
+    return list[0] ? this.toDTO(list[0]) : null;
   }
 
   public async createTaskList(userId: string, title: string, description?: string): Promise<TaskList> {
@@ -26,7 +26,11 @@ export class TaskListsService {
   }
 
   public async deleteTaskList(userId: string, listId: string) {
-    return this.taskListRepo.deleteTaskList(userId, listId);
+    const list = await this.findListById(userId, listId);
+
+    if (list) {
+      await this.taskListRepo.deleteTaskList(userId, listId);
+    }
   }
 
   private toDTO(taskList: any): TaskList {

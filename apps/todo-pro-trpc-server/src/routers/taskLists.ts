@@ -86,9 +86,17 @@ export const taskListsRouter = trpc.router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      ctx.logger.info({ ctx, input });
+      try {
+        const repo = new TaskListRepository();
+        const service = new TaskListsService(repo);
 
-      return {};
+        await service.deleteTaskList(ctx.userId, input.listId);
+
+        return {};
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
     }),
   editList: protectedProcedure
     .input(
