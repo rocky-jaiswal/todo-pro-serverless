@@ -11,12 +11,12 @@ export const TaskListIndex = (props: Props) => {
     <div className="flex flex-row lg:w-10/12 w-56 overflow-x-auto">
       {props.listData.map((list) => {
         return (
-          <div key={list.id}>
+          <div key={list.listId}>
             <button
-              className={`btn ${props.selectedList === list.id ? 'btn-accent' : 'btn-outline btn-secondary'} mr-2`}
-              onClick={() => props.setSelectedList(list.id)}
+              className={`btn ${props.selectedList === list.listId ? 'btn-accent' : 'btn-outline btn-secondary'} mr-2`}
+              onClick={() => props.setSelectedList(list.listId)}
             >
-              {list.name}
+              {list.listTitle}
             </button>
           </div>
         );

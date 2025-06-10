@@ -11,29 +11,32 @@
 ## Core app logic
 
 - DynamoDB local (docker) ✅
-- Sharing types between frontend and backend ⏭️
-- JWT setup works ⏭️
-- ElectroDB setup for DB (local and Lambda)
+- Sharing types between frontend and backend ✅
+- JWT setup works ✅
+- ElectroDB setup for DB (local and Lambda) ✅
 - User registration
-  - Social Login
+  - Social Login ✅
   - Register new user with email + password
   - Login with email + password works
 - Home page
+  - Integrate FE queries / mutations with API ✅
 - Users - Create, Read
 - Sessions - Create, Read
-- TaskLists - Create, List, Read
-- Tasks - Create, List, Read
+- TaskLists - Create, List, Read, Edit, Delete
+- Tasks - Create, List, Read, Edit, Delete
+- Check auth for edit / delete
 - 40x vs 50x errors
 - Error handling
   - Log errors + stacktrace
   - Do not leak stacktrace
   - Clear error messages
   - Handle errors on client side (e.g. health check) and show message / alerts
+- Clean logout
 - Unit testing
 - Integration testing
 - PWA frontend
 
-## DevOps for FE / final work
+## DevOps / final AWS setup
 
 - Deploy FE ✅
   - Build & upload FE code to S3, CDN invalidation ✅

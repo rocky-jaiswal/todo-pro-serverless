@@ -10,7 +10,7 @@ export const TasksDisplay = (props: Props) => {
   return (
     <div className="flex flex-col">
       {props.taskData.map((task) => {
-        return <TaskCard task={task} onTasksUpdate={props.onTasksUpdate} key={task.id} />;
+        return <TaskCard task={task} onTasksUpdate={props.onTasksUpdate} key={task.taskId} />;
       })}
     </div>
   );

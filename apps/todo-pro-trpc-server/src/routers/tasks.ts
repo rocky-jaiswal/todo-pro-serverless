@@ -1,21 +1,51 @@
 import { z } from 'zod';
+import { TRPCError } from '@trpc/server';
 
 import { trpc, protectedProcedure } from '../trpc';
+import { TasksRepository } from '../repositories/taskRepo';
+import { TasksService } from '../services/tasks';
 
 export const tasksRouter = trpc.router({
-  createTask: protectedProcedure
+  getTasksForList: protectedProcedure
     .input(
       z.object({
-        name: z.string().min(1).max(50),
-        description: z.string().max(150).nullable(),
-        dueBy: z.string().date().nullable(),
         listId: z.string().uuid(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      ctx.logger.info({ ctx, input });
+    .query(async ({ ctx, input }) => {
+      try {
+        const repo = new TasksRepository();
+        const service = new TasksService(repo);
 
-      return {};
+        const taskList = await service.findAllTasksByUserAndList(ctx.userId, input.listId);
+
+        return taskList;
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+    }),
+  createTask: protectedProcedure
+    .input(
+      z.object({
+        listId: z.string().uuid(),
+        name: z.string().min(1).max(50),
+        description: z.string().max(150).nullable(),
+        dueBy: z.string().date().nullable(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const repo = new TasksRepository();
+        const service = new TasksService(repo);
+
+        const task = await service.createTask(ctx.userId, input.listId, input.name, input.description ?? undefined);
+
+        return task;
+      } catch (err: unknown) {
+        ctx.logger.error(err);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
     }),
   markAsCompleted: protectedProcedure
     .input(

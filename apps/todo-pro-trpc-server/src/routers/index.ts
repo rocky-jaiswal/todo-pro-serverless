@@ -1,6 +1,5 @@
 import { trpc } from '../trpc';
 import { healthRouter } from './health';
-import { homeRouter } from './home';
 import { sessionsRouter } from './sessions';
 import { taskListsRouter } from './taskLists';
 import { tasksRouter } from './tasks';
@@ -10,7 +9,6 @@ export const router = trpc.router({
   health: healthRouter,
   users: usersRouter,
   sessions: sessionsRouter,
-  home: homeRouter,
   taskLists: taskListsRouter,
   tasks: tasksRouter,
 });

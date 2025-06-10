@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { trpc } from '../api';
 import { useAsync } from '../hooks/useAsync';
+import { setSessionStorage } from '../utils';
 
 interface HasCode {
   code?: string;
@@ -23,7 +24,8 @@ const GoogleCallbackPage = () => {
 
   useAsync(async () => {
     if (createGoogleUser.isSuccess) {
-      await router.navigate({ to: '/about' });
+      setSessionStorage('token', createGoogleUser.data);
+      await router.navigate({ to: '/home' });
     }
   });
 

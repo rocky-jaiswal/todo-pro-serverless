@@ -1,13 +1,20 @@
-export type TaskList = {
+export type User = {
   id: string;
-  name: string;
-  description: string | null;
+  email: string;
+  password?: string;
+  loginType?: string;
+};
+
+export type TaskList = {
+  listId: string;
+  listTitle: string;
+  listDescription?: string;
 };
 
 export type Task = {
-  id: string;
-  name: string;
-  description: string | null;
-  completed: boolean;
-  dueBy: Date | null;
+  taskId: string;
+  listId: string;
+  taskTitle: string;
+  taskDueBy?: string;
+  taskCompleted?: boolean;
 };

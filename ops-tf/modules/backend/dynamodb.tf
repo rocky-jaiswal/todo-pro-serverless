@@ -5,19 +5,32 @@ locals {
 resource "aws_dynamodb_table" "data_table" {
   name           = local.dynamodb_table_name
   billing_mode   = "PAY_PER_REQUEST" 
-  hash_key       = "id"
+  hash_key       = "pk"
+  range_key      = "sk"
 
   attribute {
-    name = "id"
+    name = "pk"
     type = "S"
   }
 
-  # Optional: Define a sort key if needed
-  # range_key = "timestamp"
-  # attribute {
-  #   name = "timestamp"
-  #   type = "N" # Number type for timestamp
-  # }
+  attribute {
+    name = "sk"
+    type = "S"
+  }
+
+  attribute {
+    name = "entityType"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name               = "entityTypeIndex"
+    hash_key           = "pk"
+    range_key          = "entityType"
+    write_capacity     = 1
+    read_capacity      = 1
+    projection_type    = "ALL"
+  }
 
   server_side_encryption {
     enabled = true

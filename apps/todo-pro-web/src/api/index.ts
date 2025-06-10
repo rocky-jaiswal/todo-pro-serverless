@@ -3,10 +3,13 @@ import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
 import { QueryClient } from '@tanstack/react-query';
 
 import { type AppRouter } from 'todo-pro-api/dist';
+import { getSessionStorage } from '../utils';
 
 const getHeaders = () => {
-  // TODO: Get / Set JWT
-  return { 'content-type': 'application/json' };
+  return {
+    'content-type': 'application/json',
+    'x-auth-token': getSessionStorage('token') ?? undefined,
+  };
 };
 
 const trpcClient = createTRPCClient<AppRouter>({

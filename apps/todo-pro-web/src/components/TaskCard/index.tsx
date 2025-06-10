@@ -13,9 +13,9 @@ interface Props {
   onTasksUpdate: () => unknown;
 }
 
-const isOverdue = (dueBy: Date | null) => dueBy && isBefore(dueBy, endOfToday()) && !isToday(dueBy);
+const isOverdue = (dueBy?: Date) => dueBy && isBefore(dueBy, endOfToday()) && !isToday(dueBy);
 
-const isDueToday = (dueBy: Date | null) => dueBy && isToday(dueBy);
+const isDueToday = (dueBy?: Date) => dueBy && isToday(dueBy);
 
 const daysDiff = (dueBy: Date) => {
   const diff = Math.abs(differenceInCalendarDays(dueBy, endOfToday()));
@@ -40,20 +40,20 @@ export const TaskCard = (props: Props) => {
       className={`flex flex-row justify-between 
               border border-secondary rounded-md 
               px-4 py-1 my-1 
-              ${!task.completed && isOverdue(task.dueBy) ? 'bg-error' : ''} 
-              ${!task.completed && isDueToday(task.dueBy) ? 'bg-warning' : ''}
-              ${task.completed ? 'bg-[#769e6b]' : ''}
+              ${!task.taskCompleted && isOverdue(task.taskDueBy) ? 'bg-error' : ''} 
+              ${!task.taskCompleted && isDueToday(task.taskDueBy) ? 'bg-warning' : ''}
+              ${task.taskCompleted ? 'bg-[#769e6b]' : ''}
             `}
     >
-      <div className={`flex items-center justify-between w-full px-2 ${task.completed ? 'line-through' : ''}`}>
-        <div>{task.name}</div>
-        <div className={task.dueBy && !task.completed ? 'text-sm italic' : 'hidden'}>
-          {task.dueBy
-            ? isOverdue(task.dueBy)
-              ? `Overdue by ${daysDiff(task.dueBy)}`
-              : isDueToday(task.dueBy)
+      <div className={`flex items-center justify-between w-full px-2 ${task.taskCompleted ? 'line-through' : ''}`}>
+        <div>{task.taskTitle}</div>
+        <div className={task.taskDueBy && !task.taskCompleted ? 'text-sm italic' : 'hidden'}>
+          {task.taskDueBy
+            ? isOverdue(task.taskDueBy)
+              ? `Overdue by ${daysDiff(task.taskDueBy)}`
+              : isDueToday(task.taskDueBy)
                 ? 'Due today'
-                : `Due in ${daysDiff(task.dueBy)}`
+                : `Due in ${daysDiff(task.taskDueBy)}`
             : ''}
         </div>
       </div>
@@ -63,15 +63,15 @@ export const TaskCard = (props: Props) => {
             <img src="/dots.png" width={20} height={20} alt="actions" />
           </summary>
           <ul className="menu dropdown-content bg-[#2f3389] rounded-box z-[1] w-52 p-2 shadow">
-            <li style={task.completed ? { display: 'none' } : {}}>
+            <li style={task.taskCompleted ? { display: 'none' } : {}}>
               <button
-                disabled={task.completed || markDoneMutation.isPending}
+                disabled={task.taskCompleted || markDoneMutation.isPending}
                 onClick={(e) => {
                   e.preventDefault();
                   taskRef.current && taskRef.current.removeAttribute('open');
                   markDoneMutation
                     .mutateAsync({
-                      id: task.id,
+                      id: task.taskId,
                     })
                     .then(() => props.onTasksUpdate())
                     .catch((err: unknown) => console.error(err)); // TODO: Handle this error
@@ -91,7 +91,7 @@ export const TaskCard = (props: Props) => {
                   taskRef.current && taskRef.current.removeAttribute('open');
                   deleteTaskMutation
                     .mutateAsync({
-                      id: task.id,
+                      id: task.taskId,
                     })
                     .then(() => props.onTasksUpdate())
                     .catch((err: unknown) => console.error(err)); // TODO: Handle this error

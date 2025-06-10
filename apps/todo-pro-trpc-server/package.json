@@ -9,14 +9,17 @@
   "scripts": {
     "build": "rm -rf ./dist/ && tsc && cp -R src/keys/ dist/",
     "dev": "APP_ENVIRONMENT=development NODE_ENV=development tsx src/local/server.ts",
-    "client:test": "npx tsx src/local/client.ts"
+    "test": "npx jest"
   },
   "dependencies": {
     "@aws-sdk/client-api-gateway": "^3.758.0",
     "@aws-sdk/client-lambda": "^3.758.0",
     "@aws-sdk/client-secrets-manager": "^3.821.0",
     "@trpc/server": "^11.3.0",
+    "aws-sdk": "^2.1692.0",
     "build": "^0.1.4",
+    "date-fns": "^4.1.0",
+    "electrodb": "^3.4.1",
     "google-auth-library": "^9.15.1",
     "jsonwebtoken": "^9.0.2",
     "pino": "^9.6.0",
@@ -24,15 +27,19 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@jest/globals": "^30.0.0-beta.3",
     "@trpc/client": "^11.0.0-rc.824",
     "@types/aws-lambda": "^8.10.147",
     "@types/cors": "^2.8.18",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.17.24",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "pem-jwk": "^2.0.0",
+    "ts-jest": "^29.3.4",
     "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   }

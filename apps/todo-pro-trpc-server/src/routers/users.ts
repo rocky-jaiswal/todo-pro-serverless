@@ -3,6 +3,9 @@ import { TRPCError } from '@trpc/server';
 
 import { trpc, publicProcedure, protectedProcedure } from '../trpc';
 import { GoogleOAuthClient } from '../services/googleOAuthClient';
+import { UserRepository } from '../repositories/userRepo';
+import { UsersService } from '../services/users';
+import { SessionsService } from '../services/sessions';
 
 export const usersRouter = trpc.router({
   createGoogleUser: publicProcedure
@@ -13,14 +16,16 @@ export const usersRouter = trpc.router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        ctx.logger.info('------createGoogleUser------->');
-
         const googleOAuthClient = new GoogleOAuthClient();
         const email = await googleOAuthClient.getEmailFromAuthCode(input.code);
 
-        // TODO: Find or create user by email
-        // TODOD: Create or get auth token by user id
-        return email;
+        const userRepo = new UserRepository();
+        const usersService = new UsersService(userRepo);
+
+        const user = await usersService.findOrCreateUser(email.email, 'GOOGLE');
+
+        const jwt = new SessionsService().createSession(user.userId);
+        return jwt;
       } catch (err) {
         ctx.logger.error(err);
         throw new TRPCError({

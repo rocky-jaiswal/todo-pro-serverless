@@ -17,7 +17,7 @@ export const TaskListWithTaskIndex = (props: Props) => {
   return (
     <div>
       <ListDisplay
-        listId={props.taskListData.id}
+        listId={props.taskListData.listId}
         taskListData={props.taskListData}
         onListUpdate={props.onListUpdate}
         onListsUpdate={props.onListsUpdate}
@@ -25,7 +25,7 @@ export const TaskListWithTaskIndex = (props: Props) => {
       />
       <TasksDisplay taskData={props.taskData ?? []} onTasksUpdate={props.onTasksUpdate} />
       <div className="my-8" />
-      <CreateTask listId={props.taskListData.id} onTasksUpdate={props.onTasksUpdate} />
+      <CreateTask listId={props.taskListData.listId} onTasksUpdate={props.onTasksUpdate} />
       <div />
     </div>
   );

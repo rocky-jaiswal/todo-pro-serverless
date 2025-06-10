@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useAsync } from '../../hooks/useAsync';
 import { useRouter } from '@tanstack/react-router';
 
-// import { api } from '../../api'
-
-function TopBar() {
+export const TopBar = () => {
   // const userDetails = api.users.userDetails.useQuery()
 
   const router = useRouter();
@@ -22,9 +20,9 @@ function TopBar() {
         <h1 className="text-3xl font-bold">To-do Pro</h1>
       </div>
       <div className="p-4">
-        <div>
+        {/* <div>
           <p className="text-sm font-bold mx-2">Welcome, user</p>
-        </div>
+        </div> */}
         <button
           className="btn-secondary btn bg-info"
           onClick={() => {
@@ -36,6 +34,4 @@ function TopBar() {
       </div>
     </div>
   );
-}
-
-export default TopBar;
+};

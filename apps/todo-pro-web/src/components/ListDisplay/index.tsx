@@ -23,8 +23,8 @@ export const ListDisplay = (props: Props) => {
     return (
       <EditTaskList
         listId={props.listId}
-        listName={props.taskListData.name || ''}
-        listDescription={props.taskListData.description || ''}
+        listName={props.taskListData.listTitle || ''}
+        listDescription={props.taskListData.listDescription || ''}
         setEditListFormDisplay={setDisplayEditForm}
         onListUpdate={props.onListUpdate}
         onListsUpdate={props.onListsUpdate}
@@ -35,8 +35,8 @@ export const ListDisplay = (props: Props) => {
   return (
     <div className="flex flex-row justify-between items-baseline border rounded-md p-4 my-4">
       <div className="flex flex-row items-center">
-        <h1 className="text-3xl font-bold py-5 text-blue-500">{props.taskListData.name || ''}</h1>
-        <p className="badge badge-ghost px-4">{props.taskListData.description || ''}</p>
+        <h1 className="text-3xl font-bold py-5 text-blue-500">{props.taskListData.listTitle || ''}</h1>
+        <p className="badge badge-ghost px-4">{props.taskListData.listDescription || ''}</p>
       </div>
       <div>
         <details className="dropdown dropdown-end" ref={detailsRef}>
@@ -55,7 +55,7 @@ export const ListDisplay = (props: Props) => {
                   detailsRef.current && detailsRef.current.removeAttribute('open');
                   deleteListMutation
                     .mutateAsync({
-                      listId: props.taskListData.id,
+                      listId: props.taskListData.listId,
                     })
                     .then(() => {
                       props.onListsUpdate();

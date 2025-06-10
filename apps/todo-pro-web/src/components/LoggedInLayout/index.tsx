@@ -1,9 +1,7 @@
-import { type ReactElement } from 'react';
-
 import TopBar from '../TopBar';
 
 interface Props {
-  page: ReactElement;
+  page: any;
 }
 
 function LoggedInLayout(props: Props) {

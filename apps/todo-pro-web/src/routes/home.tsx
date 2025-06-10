@@ -1,27 +1,27 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 
+import type { Task, TaskList } from 'todo-pro-api/dist';
 import { trpc } from '../api';
 
 import { Loading } from '../components/Loading';
 import { ListAndTasksContainer } from '../components/ListAndTasksContainer';
 import { CreateTaskList } from '../components/CreateTaskList';
-import { createFileRoute } from '@tanstack/react-router';
+import { TopBar } from '../components/TopBar';
 
 const Home = () => {
   const [selectedList, setSelectedList] = useState<string | null>(null);
 
-  const taskListQuery = useQuery(trpc.home.findUserAndLists.queryOptions());
+  const taskListQuery = useQuery<TaskList[]>(trpc.taskLists.getLists.queryOptions());
 
   if (!selectedList && taskListQuery.isSuccess) {
-    // console.log(selectedList)
-    // TODO: Fix me
-    // if (taskListQuery.data[0]?.id) {
-    //   setSelectedList(taskListQuery.data[0].id);
-    // }
+    if (taskListQuery.data[0]?.listId) {
+      setSelectedList(taskListQuery.data[0].listId);
+    }
   }
 
-  const taskListDataQuery = useQuery(
+  const taskListDataQuery = useQuery<TaskList>(
     trpc.taskLists.getListDetails.queryOptions(
       {
         id: selectedList!,
@@ -67,17 +67,31 @@ const Home = () => {
     return <Loading />;
   }
 
+  // console.log('---------------');
+  // console.log(taskListQuery.data);
+  // console.log(taskListDataQuery.data);
+  // console.log(taskDataQuery.data);
+
   return (
-    <ListAndTasksContainer
-      listData={taskListQuery.data()}
-      taskListData={taskListDataQuery.data()}
-      selectedList={selectedList!}
-      taskData={taskDataQuery.data()}
-      onListsUpdate={taskListQuery.refetch}
-      onListUpdate={taskListDataQuery.refetch}
-      onTasksUpdate={taskDataQuery.refetch}
-      setSelectedList={setSelectedList}
-    />
+    <div className="flex items-start justify-center">
+      <div className="flex flex-col min-h-screen lg:w-9/12 max-w-7xl">
+        <TopBar />
+        <div className="flex h-full w-full grow flex-col lg:flex-row">
+          <main role="main" className="flex grow flex-col p-6">
+            <ListAndTasksContainer
+              listData={taskListQuery.data}
+              taskListData={taskListDataQuery.data}
+              selectedList={selectedList!}
+              taskData={taskDataQuery.data as Task[]}
+              onListsUpdate={taskListQuery.refetch}
+              onListUpdate={taskListDataQuery.refetch}
+              onTasksUpdate={taskDataQuery.refetch}
+              setSelectedList={setSelectedList}
+            />
+          </main>
+        </div>
+      </div>
+    </div>
   );
 };
 
