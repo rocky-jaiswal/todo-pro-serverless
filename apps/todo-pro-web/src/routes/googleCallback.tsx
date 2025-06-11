@@ -15,7 +15,7 @@ const GoogleCallbackPage = () => {
   const looseSearch = useSearch({ strict: false }) as HasCode;
   const trpc = createClient();
 
-  const createGoogleUser = useMutation(trpc.users.createGoogleUser.mutationOptions());
+  const createGoogleUser = useMutation<unknown, any, any>(trpc.users.createGoogleUser.mutationOptions());
 
   useEffect(() => {
     if (looseSearch.code && !createGoogleUser.isPending) {

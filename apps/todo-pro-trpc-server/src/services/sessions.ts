@@ -9,10 +9,15 @@ import { UsersService } from './users';
 export class SessionsService {
   private readonly secrets: Secrets;
   private readonly token: JWToken;
+  private readonly userRepo: UserRepository;
+  private readonly usersService: UsersService;
 
   constructor() {
     this.secrets = new Secrets();
     this.token = new JWToken();
+
+    this.userRepo = new UserRepository();
+    this.usersService = new UsersService(this.userRepo);
   }
 
   public async createSession(userId: string) {
@@ -25,10 +30,7 @@ export class SessionsService {
   }
 
   public async validateLogin(email: string, password: string) {
-    const userRepo = new UserRepository();
-    const usersService = new UsersService(userRepo);
-
-    const user = await usersService.findUserByEmail(email);
+    const user = await this.usersService.findUserByEmail(email);
 
     if (user) {
       const isValidPassword = await this.validatePassword(user.password ?? '', password);

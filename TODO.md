@@ -27,7 +27,6 @@
 - Check auth for edit / delete ✅
 
 - Clean login / logout from UI
-- New user onboarding experience
 - 40x vs 50x errors
 - Error handling
   - Log errors + stacktrace

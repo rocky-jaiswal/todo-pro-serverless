@@ -17,7 +17,9 @@ function LoginForm(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const createSessionMutation = useMutation(trpc.sessions.createSession.mutationOptions());
+  const createSessionMutation = useMutation<unknown, any, Record<string, string | null>>(
+    trpc.sessions.createSession.mutationOptions(),
+  );
 
   useAsync(async () => {
     if (createSessionMutation.isSuccess) {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { type TaskList } from 'todo-pro-api/dist';
 
 import { createClient } from '../../api';
 
@@ -15,7 +16,9 @@ export const CreateTaskList = (props: Props) => {
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const createTaskListMutation = useMutation(trpc.taskLists.createTaskList.mutationOptions());
+  const createTaskListMutation = useMutation<TaskList, unknown, Record<string, string | null>>(
+    trpc.taskLists.createTaskList.mutationOptions(),
+  );
 
   if (!props.displayCreateListForm) {
     return <div />;

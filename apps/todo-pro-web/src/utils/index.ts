@@ -13,12 +13,20 @@ const getLocalStorage = <T>(key: string, isParse = false): T | string => {
 
 const setSessionStorage = (key: string, value: any): Promise<void> => {
   return new Promise((res) => {
-    value && sessionStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
-    setTimeout(() => {
+    let timeout: any = null;
+
+    const check = () => {
       if (getSessionStorage(key)) {
+        timeout && clearTimeout(timeout);
         res();
+      } else {
+        timeout && clearTimeout(timeout);
+        timeout = setTimeout(check, 250);
       }
-    }, 500);
+    };
+
+    value && sessionStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
+    timeout = setTimeout(check, 250);
   });
 };
 

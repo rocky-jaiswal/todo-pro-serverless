@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
+import { type Task } from 'todo-pro-api/dist';
 import { createClient } from '../../api';
 
 interface Props {
@@ -14,7 +15,9 @@ export const CreateTask = (props: Props) => {
   const [name, setName] = useState<string>('');
   const [dueBy, setDueDate] = useState<string | null>(null);
 
-  const createTaskListMutation = useMutation(trpc.tasks.createTask.mutationOptions());
+  const createTaskListMutation = useMutation<Task, unknown, Record<string, string | null>>(
+    trpc.tasks.createTask.mutationOptions(),
+  );
 
   if (!displayForm) {
     return (

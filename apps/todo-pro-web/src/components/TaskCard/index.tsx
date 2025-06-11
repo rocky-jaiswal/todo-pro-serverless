@@ -1,24 +1,25 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { differenceInCalendarDays, endOfToday, isBefore, isToday, parse } from 'date-fns';
+import { type Task } from 'todo-pro-api/dist';
 
-import { differenceInCalendarDays, endOfToday, isBefore, isToday } from 'date-fns';
-
-import { type Task as TaskType } from 'todo-pro-api/dist';
 import { createClient } from '../../api';
 import { EditTask } from '../EditTask';
 
 interface Props {
-  task: TaskType;
+  task: Task;
   onTasksUpdate: () => unknown;
 }
 
-const isOverdue = (dueBy?: Date) => dueBy && isBefore(dueBy, endOfToday()) && !isToday(dueBy);
+const toDate = (str: string) => parse(str, 'yyyy-MM-dd', new Date());
 
-const isDueToday = (dueBy?: Date) => dueBy && isToday(dueBy);
+const isOverdue = (dueBy?: string) => dueBy && isBefore(toDate(dueBy), endOfToday()) && !isToday(dueBy);
 
-const daysDiff = (dueBy: Date) => {
-  const diff = Math.abs(differenceInCalendarDays(dueBy, endOfToday()));
+const isDueToday = (dueBy?: string) => dueBy && isToday(toDate(dueBy));
+
+const daysDiff = (dueBy: string) => {
+  const diff = Math.abs(differenceInCalendarDays(toDate(dueBy), endOfToday()));
   return diff === 1 ? `${diff} day` : `${diff} days`;
 };
 
@@ -27,8 +28,12 @@ export const TaskCard = (props: Props) => {
 
   const [displayEditForm, setDisplayEditForm] = useState<boolean>(false);
 
-  const deleteTaskMutation = useMutation(trpc.tasks.deleteTask.mutationOptions());
-  const markDoneMutation = useMutation(trpc.tasks.markAsCompleted.mutationOptions());
+  const deleteTaskMutation = useMutation<Task, unknown, Record<string, string | null>>(
+    trpc.tasks.deleteTask.mutationOptions(),
+  );
+  const markDoneMutation = useMutation<Task, unknown, Record<string, string | null>>(
+    trpc.tasks.markAsCompleted.mutationOptions(),
+  );
 
   const { task } = props;
   const taskRef = React.useRef<HTMLDetailsElement | null>(null);

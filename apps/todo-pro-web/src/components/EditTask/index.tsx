@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
+import { type Task } from 'todo-pro-api/dist';
 
-import { type Task as TaskType } from 'todo-pro-api/dist';
 import { createClient } from '../../api';
 
 interface Props {
-  task: TaskType;
+  task: Task;
   onTasksUpdate: () => unknown;
   setDisplayEditForm: (display: boolean) => unknown;
 }
@@ -19,7 +19,9 @@ export const EditTask = (props: Props) => {
     props.task.taskDueBy ? format(props.task.taskDueBy, 'yyyy-MM-dd') : null,
   );
 
-  const updateTaskMutation = useMutation(trpc.tasks.updateTask.mutationOptions());
+  const updateTaskMutation = useMutation<Task, unknown, Record<string, string | null>>(
+    trpc.tasks.updateTask.mutationOptions(),
+  );
 
   return (
     <div className="flex flex-col items-end">

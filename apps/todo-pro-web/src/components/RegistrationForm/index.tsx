@@ -17,7 +17,9 @@ function RegistrationForm(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmedPassword, setConfirmedPassword] = useState<string>('');
-  const createUserMutation = useMutation(trpc.users.createUser.mutationOptions());
+  const createUserMutation = useMutation<unknown, any, Record<string, string | null>>(
+    trpc.users.createUser.mutationOptions(),
+  );
 
   useAsync(async () => {
     if (createUserMutation.isSuccess) {
@@ -67,7 +69,7 @@ function RegistrationForm(props: Props) {
           disabled={createUserMutation.isPending}
           onClick={(e) => {
             e.preventDefault();
-            if (email && password && confirmedPassword) {
+            if (email && password && password === confirmedPassword) {
               createUserMutation.mutate({
                 email,
                 password,

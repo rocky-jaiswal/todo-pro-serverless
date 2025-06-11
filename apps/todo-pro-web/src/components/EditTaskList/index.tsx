@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { type TaskList } from 'todo-pro-api/dist';
 
 import { createClient } from '../../api';
 
@@ -17,7 +18,9 @@ export const EditTaskList = (props: Props) => {
 
   const [name, setName] = useState<string>(props.listName);
   const [description, setDescription] = useState<string>(props.listDescription);
-  const editTaskListMutation = useMutation(trpc.taskLists.editList.mutationOptions());
+  const editTaskListMutation = useMutation<TaskList, unknown, Record<string, string | null>>(
+    trpc.taskLists.editList.mutationOptions(),
+  );
 
   return (
     <div className="flex flex-col max-w-96 my-6">
