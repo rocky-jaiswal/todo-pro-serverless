@@ -1,4 +1,3 @@
-import { type JwtPayload } from 'jsonwebtoken';
 import { TRPCError } from '@trpc/server';
 import { JWToken } from '../services/token';
 
@@ -19,7 +18,7 @@ export const enforceUserIsAuthenticated = (trpc: any) =>
 
     try {
       const payload = await new JWToken().validateToken(ctx.token);
-      const userId = (payload as JwtPayload).sub;
+      const userId = payload.sub;
 
       return next({
         ctx: {

@@ -3,6 +3,7 @@ import { TRPCError } from '@trpc/server';
 
 import { trpc, publicProcedure } from '../trpc';
 import { GoogleOAuthClient } from '../services/googleOAuthClient';
+import { SessionsService } from '../services/sessions';
 
 export const sessionsRouter = trpc.router({
   createSession: publicProcedure
@@ -13,11 +14,25 @@ export const sessionsRouter = trpc.router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      ctx.logger.info(JSON.stringify({ input }));
+      try {
+        const sessionsService = new SessionsService();
+        const jwt = sessionsService.validateLogin(input.email, input.password);
 
-      return {};
+        return jwt;
+      } catch (err) {
+        ctx.logger.error(err);
+
+        if ((err as Error).message === 'UNAUTHORIZED') {
+          throw err;
+        }
+
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unexpected error occurred, please try again later.',
+          cause: err,
+        });
+      }
     }),
-
   getGoogleUrl: publicProcedure.query(async ({ ctx }) => {
     try {
       const googleOAuthClient = new GoogleOAuthClient();

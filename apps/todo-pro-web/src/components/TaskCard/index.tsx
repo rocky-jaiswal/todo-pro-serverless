@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { differenceInCalendarDays, endOfToday, isBefore, isToday } from 'date-fns';
 
 import { type Task as TaskType } from 'todo-pro-api/dist';
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 import { EditTask } from '../EditTask';
 
 interface Props {
@@ -23,6 +23,8 @@ const daysDiff = (dueBy: Date) => {
 };
 
 export const TaskCard = (props: Props) => {
+  const trpc = createClient();
+
   const [displayEditForm, setDisplayEditForm] = useState<boolean>(false);
 
   const deleteTaskMutation = useMutation(trpc.tasks.deleteTask.mutationOptions());

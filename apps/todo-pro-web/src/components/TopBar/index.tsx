@@ -10,7 +10,9 @@ export const TopBar = () => {
 
   useAsync(async () => {
     if (isLoggedOut) {
+      sessionStorage.clear();
       await router.navigate({ to: '/' });
+      router.history.destroy();
     }
   });
 

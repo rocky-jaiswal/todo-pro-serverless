@@ -16,17 +16,19 @@
 - ElectroDB setup for DB (local and Lambda) ✅
 - User registration
   - Social Login ✅
-  - Register new user with email + password
-  - Login with email + password works
+  - Register new user with email + password ✅
+  - Login with email + password works ✅
 - Home page
   - Integrate FE queries / mutations with API ✅
-- Users - Create, Read
-- Sessions - Create, Read
-- TaskLists - Create, List, Read, Edit, Delete
-- Tasks - Create, List, Read, Edit, Delete
-- Check auth for edit / delete
+- Users - Create, Read ✅
+- Sessions - Create, Read ✅
+- TaskLists - Create, List, Read, Edit, Delete ✅
+- Tasks - Create, List, Read, Edit, Delete ✅
+- Check auth for edit / delete ✅
+
+- Clean login / logout from UI
+- New user onboarding experience
 - 40x vs 50x errors
-- Clean logout
 - Error handling
   - Log errors + stacktrace
   - Do not leak stacktrace
@@ -47,10 +49,10 @@
   - Only allow request from FE URL
 - Read secrets in TS code correctly ✅
 - Setup
+  - Google OAuth setup
   - Set secrets
   - DynamoDB setup
   - DynamoDB columns
-  - Google OAuth setup
 - Login with Google works
   - Correct Google OAuth config / secrets
 - Proper logging

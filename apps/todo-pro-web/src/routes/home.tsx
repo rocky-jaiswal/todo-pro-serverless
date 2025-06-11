@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 import type { Task, TaskList } from 'todo-pro-api/dist';
-import { trpc } from '../api';
+import { createClient } from '../api';
 
 import { Loading } from '../components/Loading';
 import { ListAndTasksContainer } from '../components/ListAndTasksContainer';
@@ -11,6 +11,8 @@ import { CreateTaskList } from '../components/CreateTaskList';
 import { TopBar } from '../components/TopBar';
 
 const Home = () => {
+  const trpc = createClient();
+
   const [selectedList, setSelectedList] = useState<string | null>(null);
 
   const taskListQuery = useQuery<TaskList[]>(trpc.taskLists.getLists.queryOptions());
@@ -45,14 +47,20 @@ const Home = () => {
 
   if (taskListQuery.isSuccess && taskListQuery.data?.length === 0) {
     return (
-      <>
-        <p>You have no lists created. Why not create one now?</p>
-        <CreateTaskList
-          displayCreateListForm={true}
-          onListsUpdate={taskListQuery.refetch}
-          setSelectedList={setSelectedList}
-        />
-      </>
+      <div className="flex items-start justify-center">
+        <div className="flex flex-col min-h-screen lg:w-9/12 max-w-7xl">
+          <TopBar />
+          <div className="flex h-full w-full grow flex-col lg:flex-row"></div>
+          <main role="main" className="flex grow flex-col p-6">
+            <p>You have no lists created. Why not create one now?</p>
+            <CreateTaskList
+              displayCreateListForm={true}
+              onListsUpdate={taskListQuery.refetch}
+              setSelectedList={setSelectedList}
+            />
+          </main>
+        </div>
+      </div>
     );
   }
 

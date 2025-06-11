@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 
 interface Props {
   displayCreateListForm: boolean;
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export const CreateTaskList = (props: Props) => {
+  const trpc = createClient();
+
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const createTaskListMutation = useMutation(trpc.taskLists.createTaskList.mutationOptions());

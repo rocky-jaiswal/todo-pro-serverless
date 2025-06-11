@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 
 interface Props {
   listId: string;
@@ -9,6 +9,7 @@ interface Props {
 }
 
 export const CreateTask = (props: Props) => {
+  const trpc = createClient();
   const [displayForm, setDisplayForm] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [dueBy, setDueDate] = useState<string | null>(null);

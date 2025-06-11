@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { createFileRoute, useRouter, useSearch } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
 
-import { trpc } from '../api';
+import { createClient } from '../api';
 import { useAsync } from '../hooks/useAsync';
 import { setSessionStorage } from '../utils';
 
@@ -13,6 +13,7 @@ interface HasCode {
 const GoogleCallbackPage = () => {
   const router = useRouter();
   const looseSearch = useSearch({ strict: false }) as HasCode;
+  const trpc = createClient();
 
   const createGoogleUser = useMutation(trpc.users.createGoogleUser.mutationOptions());
 
@@ -24,7 +25,7 @@ const GoogleCallbackPage = () => {
 
   useAsync(async () => {
     if (createGoogleUser.isSuccess) {
-      setSessionStorage('token', createGoogleUser.data);
+      await setSessionStorage('token', createGoogleUser.data);
       await router.navigate({ to: '/home' });
     }
   });

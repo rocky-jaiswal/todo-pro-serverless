@@ -1,5 +1,10 @@
+import * as argon2 from 'argon2';
+import { TRPCError } from '@trpc/server';
+
 import { Secrets } from './secrets';
 import { JWToken } from './token';
+import { UserRepository } from '../repositories/userRepo';
+import { UsersService } from './users';
 
 export class SessionsService {
   private readonly secrets: Secrets;
@@ -17,5 +22,36 @@ export class SessionsService {
     const jwt = this.token.createToken(userId, passphrase!, keyId!);
 
     return jwt;
+  }
+
+  public async validateLogin(email: string, password: string) {
+    const userRepo = new UserRepository();
+    const usersService = new UsersService(userRepo);
+
+    const user = await usersService.findUserByEmail(email);
+
+    if (user) {
+      const isValidPassword = await this.validatePassword(user.password ?? '', password);
+
+      if (isValidPassword) {
+        const jwt = await this.createSession(user.userId);
+        return jwt;
+      }
+    }
+
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'UNAUTHORIZED',
+    });
+  }
+
+  public async encryptPassword(password: string) {
+    const encrypted = await argon2.hash(password);
+    return encrypted;
+  }
+
+  private async validatePassword(encryptedPassword: string, password: string) {
+    const result = await argon2.verify(encryptedPassword, password);
+    return result;
   }
 }

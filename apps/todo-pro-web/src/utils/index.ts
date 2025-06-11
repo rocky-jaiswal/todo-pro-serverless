@@ -11,8 +11,15 @@ const getLocalStorage = <T>(key: string, isParse = false): T | string => {
   return isParse ? JSON.parse(cache) : cache;
 };
 
-const setSessionStorage = (key: string, value: any): void => {
-  value && sessionStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
+const setSessionStorage = (key: string, value: any): Promise<void> => {
+  return new Promise((res) => {
+    value && sessionStorage.setItem(`${keyBefore}${key}`, typeof value === 'string' ? value : JSON.stringify(value));
+    setTimeout(() => {
+      if (getSessionStorage(key)) {
+        res();
+      }
+    }, 500);
+  });
 };
 
 const getSessionStorage = <T>(key: string, isParse = false): T | string => {

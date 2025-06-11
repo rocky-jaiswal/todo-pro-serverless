@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from '@tanstack/react-router';
 
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 import { useAsync } from '../../hooks/useAsync';
+import { setSessionStorage } from '/@/utils';
 
 interface Props {
   display: boolean;
 }
 
 function LoginForm(props: Props) {
+  const trpc = createClient();
+  const router = useRouter();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const createSessionMutation = useMutation(trpc.sessions.createSession.mutationOptions());
 
   useAsync(async () => {
-    // if (createSessionMutation.isSuccess) {
-    //   await router.push('/home');
-    // }
+    if (createSessionMutation.isSuccess) {
+      await setSessionStorage('token', createSessionMutation.data);
+      await router.navigate({ to: '/home' });
+    }
   });
 
   return (

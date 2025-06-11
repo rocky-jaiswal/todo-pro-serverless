@@ -9,13 +9,14 @@ import LoginRegister from '../components/LoginRegister';
 import SocialLogin from '../components/SocialLogin';
 import Footer from '../components/Footer';
 
-import { trpc } from '../api';
+import { createClient } from '../api';
 
 interface ShowLogin {
   showLogin: boolean;
 }
 
 const Root: React.FC = () => {
+  const trpc = createClient();
   const [display, setDisplay] = useState<ShowLogin>({ showLogin: true });
   const healthQuery = useQuery(trpc.health.ping.queryOptions());
 

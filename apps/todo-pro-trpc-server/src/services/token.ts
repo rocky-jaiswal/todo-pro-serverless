@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import jwt from 'jsonwebtoken';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 
 const privateKeyPath = path.resolve(__dirname, `./../keys/private.pem`);
 const privateKey = fs.readFileSync(privateKeyPath);
@@ -23,6 +23,7 @@ export class JWToken {
   }
 
   public async validateToken(token: string) {
-    return jwt.verify(token, publicKey);
+    const payload = jwt.verify(token, publicKey);
+    return payload as JwtPayload;
   }
 }

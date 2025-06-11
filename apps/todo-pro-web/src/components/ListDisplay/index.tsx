@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { type TaskList as TaskListType } from 'todo-pro-api/dist';
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 import { EditTaskList } from '../EditTaskList';
 
 interface Props {
@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const ListDisplay = (props: Props) => {
+  const trpc = createClient();
+
   const [displayEditForm, setDisplayEditForm] = useState<boolean>(false);
   const deleteListMutation = useMutation(trpc.taskLists.deleteList.mutationOptions());
   const detailsRef = React.useRef<HTMLDetailsElement | null>(null);

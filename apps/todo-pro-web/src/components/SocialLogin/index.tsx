@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 
 function SocialLogin() {
+  const trpc = createClient();
   const googleUrlQuery = useQuery(trpc.sessions.getGoogleUrl.queryOptions(undefined, { enabled: false }));
 
   const handleGoogleSignUp = async () => {

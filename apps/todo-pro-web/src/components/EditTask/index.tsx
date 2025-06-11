@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
 
 import { type Task as TaskType } from 'todo-pro-api/dist';
-import { trpc } from '../../api';
+import { createClient } from '../../api';
 
 interface Props {
   task: TaskType;
@@ -12,6 +12,8 @@ interface Props {
 }
 
 export const EditTask = (props: Props) => {
+  const trpc = createClient();
+
   const [name, setName] = useState<string>(props.task.taskTitle);
   const [dueBy, setDueDate] = useState<string | null>(
     props.task.taskDueBy ? format(props.task.taskDueBy, 'yyyy-MM-dd') : null,
