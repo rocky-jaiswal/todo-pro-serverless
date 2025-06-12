@@ -3,7 +3,7 @@ const devConfig = {
 };
 
 const prodConfig = {
-  GOOGLE_REDIRECT_URI_V1: 'http://localhost:5173/googleCallback',
+  GOOGLE_REDIRECT_URI_V1: 'https://yetanotherapp.xyz/googleCallback',
 };
 
 export class ApplicationConfiguration {

@@ -17,8 +17,8 @@ export class GoogleOAuthClient {
 
   private async buildOAuthClient() {
     const secrets = await Promise.all([
-      this.secrets.getSecrets('GOOGLE_CLIENT_ID_V1'),
-      this.secrets.getSecrets('GOOGLE_CLIENT_SECRET_V1'),
+      this.secrets.getSecrets('GOOGLE_CLIENT_ID_V2'),
+      this.secrets.getSecrets('GOOGLE_CLIENT_PASSWORD_V2'),
     ]);
 
     this.oAuth2Client = new OAuth2Client(secrets[0], secrets[1], this.config.getConfig('GOOGLE_REDIRECT_URI_V1'));

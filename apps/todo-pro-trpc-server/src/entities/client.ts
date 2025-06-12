@@ -19,12 +19,20 @@ const localDocumentClient = new DynamoDB.DocumentClient({
   },
 });
 
+const prodDBClient = new DynamoDBClient({
+  region: 'eu-central-1',
+});
+
+const prodDocumentClient = new DynamoDB.DocumentClient({
+  region: 'eu-central-1',
+});
+
 export const getClient = () => {
-  if (process.env.NODE_ENV === 'developement') {
+  if (process.env.NODE_ENV === 'developement' || process.env.APP_ENVIRONMENT === 'development') {
     return { dbClient: localDBClient, documentClient: localDocumentClient };
   }
 
-  return { dbClient: localDBClient, documentClient: localDocumentClient };
+  return { dbClient: prodDBClient, documentClient: prodDocumentClient };
 };
 
 export const TABLE_NAME = 'yetanotherapp-xyz-data-table';

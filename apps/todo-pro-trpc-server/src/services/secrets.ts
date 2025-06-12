@@ -1,6 +1,11 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
 
-type SecretKeys = 'GOOGLE_CLIENT_ID_V1' | 'GOOGLE_CLIENT_SECRET_V1' | 'CERT_SECRET_V1' | 'KEY_ID_V1' | 'TEST_SECRET_V2';
+type SecretKeys =
+  | 'GOOGLE_CLIENT_ID_V2'
+  | 'GOOGLE_CLIENT_PASSWORD_V2'
+  | 'CERT_SECRET_V2'
+  | 'KEY_ID_V2'
+  | 'TEST_SECRET_V3';
 
 const AWS_NAMESPACE = 'yetanotherapp-xyz';
 
@@ -24,8 +29,6 @@ export class Secrets {
       }),
     );
 
-    console.log(response);
-
-    return '';
+    return response.SecretString;
   }
 }

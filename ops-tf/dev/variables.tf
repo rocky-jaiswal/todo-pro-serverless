@@ -28,18 +28,6 @@ variable "custom_domain_name" {
   default     = "yetanotherapp.xyz"
 }
 
-variable "my_app_secrets" {
-  description = "secrets for the app"
-  type        = map(string)
-  default = {
-    GOOGLE_CLIENT_ID_V1       = "dummy"
-    GOOGLE_CLIENT_PASSWORD_V1 = "dummy"
-    CERT_SECRET_V1            = "dummy"
-    KEY_ID_V1                 = "dummy"
-    TEST_SECRET_V2            = "dummy"
-  }
-}
-
 variable "tags" {
   description = "Common tags to apply to all taggable resources."
   type        = map(string)
@@ -50,3 +38,5 @@ variable "tags" {
   }
   sensitive = true
 }
+
+# Secret variables are in another file

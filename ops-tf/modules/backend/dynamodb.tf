@@ -59,8 +59,8 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
           "dynamodb:Query",
           "dynamodb:Scan",
           "dynamodb:BatchGetItem",
-          "dynamodb:BatchWriteItem"
-          # Add other actions if needed, e.g., "dynamodb:DescribeTable"
+          "dynamodb:BatchWriteItem",
+          "dynamodb:DescribeTable"
         ],
         Effect   = "Allow",
         Resource = [

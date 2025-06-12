@@ -27,6 +27,10 @@ COPY . .
 # Run build
 RUN npm run build
 
+RUN rm -rf node_modules
+
+RUN npm i --production --no-audit --no-fund
+
 RUN mv dist/* /opt/app
 
 # Remove unnecessary files for production

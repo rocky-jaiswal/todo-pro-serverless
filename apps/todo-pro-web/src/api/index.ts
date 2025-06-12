@@ -14,10 +14,25 @@ const getHeaders = () => {
   };
 };
 
-export const createClient = () => {
-  const trpcClient = createTRPCClient<AppRouter>({
-    links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],
-  });
+const client = createTRPCClient<AppRouter>({
+  links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],
+});
+
+const cache = {
+  cachedTrpcClient: client,
+};
+
+export const createClient = (useCache = true) => {
+  let trpcClient = null;
+
+  if (useCache) {
+    trpcClient = cache.cachedTrpcClient;
+  } else {
+    trpcClient = createTRPCClient<AppRouter>({
+      links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],
+    });
+    cache.cachedTrpcClient = trpcClient;
+  }
 
   return createTRPCOptionsProxy<AppRouter>({
     client: trpcClient,

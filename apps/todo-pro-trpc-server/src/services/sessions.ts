@@ -21,8 +21,8 @@ export class SessionsService {
   }
 
   public async createSession(userId: string) {
-    const passphrase = await this.secrets.getSecrets('CERT_SECRET_V1');
-    const keyId = await this.secrets.getSecrets('KEY_ID_V1');
+    const passphrase = await this.secrets.getSecrets('CERT_SECRET_V2');
+    const keyId = await this.secrets.getSecrets('KEY_ID_V2');
 
     const jwt = this.token.createToken(userId, passphrase!, keyId!);
 

@@ -5,22 +5,6 @@ resource "aws_secretsmanager_secret" "app_secrets" {
   description = "Secret for ${each.key}"
   kms_key_id  = aws_kms_key.symmetric_key_for_secrets.arn
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = "${aws_iam_role.lambda_exec_role.arn}"
-        },
-        Action = [
-          "secretsmanager:GetSecretValue"
-        ],
-        Resource = "*"
-      }
-    ]
-  })
-
   tags = {
     Name        = "${var.project_name}-${each.key}"
     Environment = var.environment

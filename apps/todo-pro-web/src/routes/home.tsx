@@ -11,7 +11,7 @@ import { CreateTaskList } from '../components/CreateTaskList';
 import { TopBar } from '../components/TopBar';
 
 const Home = () => {
-  const trpc = createClient();
+  const trpc = createClient(false);
 
   const [selectedList, setSelectedList] = useState<string | null>(null);
 

@@ -9,7 +9,7 @@ export const healthRouter = trpc.router({
   ping: publicProcedure.query(async ({ ctx }) => {
     ctx.logger.info('health check pinged ...');
 
-    await new Secrets().getSecrets('TEST_SECRET_V2');
+    await new Secrets().getSecrets('TEST_SECRET_V3');
 
     const command = new DescribeTableCommand({
       TableName: TABLE_NAME,
