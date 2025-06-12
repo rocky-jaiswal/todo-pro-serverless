@@ -35,6 +35,11 @@ const baseConfig = {
         icons: [
           {
             src: 'favicons/pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: 'favicons/pwa-96x96.png',
             sizes: '96x96',
             type: 'image/png',
           },

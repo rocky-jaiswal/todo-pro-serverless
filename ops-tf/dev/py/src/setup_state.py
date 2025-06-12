@@ -1,5 +1,5 @@
-from .s3_bucket import S3Bucket
-from .dynamodb_table import DynamoDBTable
+from .state_s3_bucket import S3Bucket
+from .state_dynamodb_table import DynamoDBTable
 
 
 class SetupTFState:

@@ -15,7 +15,12 @@ const getHeaders = () => {
 };
 
 const client = createTRPCClient<AppRouter>({
-  links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],
+  links: [
+    httpBatchLink({
+      url: import.meta.env.VITE_APP_API_URL,
+      headers: getHeaders() as unknown as Record<string, string>,
+    }),
+  ],
 });
 
 const cache = {
@@ -29,7 +34,12 @@ export const createClient = (useCache = true) => {
     trpcClient = cache.cachedTrpcClient;
   } else {
     trpcClient = createTRPCClient<AppRouter>({
-      links: [httpBatchLink({ url: import.meta.env.VITE_APP_API_URL, headers: getHeaders() })],
+      links: [
+        httpBatchLink({
+          url: import.meta.env.VITE_APP_API_URL,
+          headers: getHeaders() as unknown as Record<string, string>,
+        }),
+      ],
     });
     cache.cachedTrpcClient = trpcClient;
   }

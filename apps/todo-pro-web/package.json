@@ -13,7 +13,7 @@
     "lint:stylelint": "stylelint --fix \"**/*.css\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint-staged": "lint-staged",
     "prepare": "husky install",
-    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/icon.png"
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/favicons/todo.png"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.67.2",

@@ -2,12 +2,13 @@
 
 ## Cleanup
 
+- PWA frontend
+  - Assets / icons ✅
 - All features work
   - New user registration
   - Login with password
   - Create / edit / delete stuff
   - Handle 401 -> redirect to login page with message
-- PWA frontend
 - Unit testing
 - Integration testing
 - 40x vs 50x errors
