@@ -3,11 +3,50 @@ services:
     image: amazon/dynamodb-local:2.6.1
     ports:
       - '8000:8000'
-  # db_setup:
-  #   image: ghcr.io/astral-sh/uv:alpine
-  #   volumes:
-  #     - ./ops-tf/dev/py:/app
-  #   working_dir: /app
-  #   command: 'sh -c "uv sync && uv run src/dynamodb_local_dev.py -a setup"'
-  #   depends_on:
-  #     - db
+    networks:
+      - my-app-network
+  db_setup:
+    image: ghcr.io/astral-sh/uv:alpine
+    volumes:
+      - ./ops/dev/py:/app
+    working_dir: /app
+    command: 'sh -c "uv sync && uv run src/dynamodb_local_dev.py -a setup"'
+    networks:
+      - my-app-network
+    depends_on:
+      - db
+  web:
+    container_name: todo-pro-web
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run dev -w apps/todo-pro-web
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./apps/todo-pro-web:/opt/app/apps/todo-pro-web
+      - node_modules:/opt/app/node_modules
+    networks:
+      - my-app-network
+  server:
+    container_name: todo-pro-trpc-server
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run dev -w apps/todo-pro-trpc-server
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./apps/todo-pro-trpc-server:/opt/app/apps/todo-pro-trpc-server
+      - node_modules:/opt/app/node_modules
+    networks:
+      - my-app-network
+    depends_on:
+      - db_setup
+
+volumes:
+  node_modules:
+
+networks:
+  my-app-network:
+    driver: bridge

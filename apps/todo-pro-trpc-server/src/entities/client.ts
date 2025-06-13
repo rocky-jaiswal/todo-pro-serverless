@@ -1,9 +1,11 @@
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
+const localHost = 'db'; // or 'localhost'
+
 const localDBClient = new DynamoDBClient({
-  region: 'localhost',
-  endpoint: 'http://localhost:8000',
+  region: localHost,
+  endpoint: `http://${localHost}:8000`,
   credentials: {
     accessKeyId: 'sao9c6', // Can be anything for local
     secretAccessKey: 'ixxi48',
@@ -11,8 +13,8 @@ const localDBClient = new DynamoDBClient({
 });
 
 const localDocumentClient = new DynamoDB.DocumentClient({
-  region: 'localhost',
-  endpoint: 'http://localhost:8000',
+  region: localHost,
+  endpoint: `http://${localHost}:8000`,
   credentials: {
     accessKeyId: 'sao9c6', // Can be anything for local
     secretAccessKey: 'ixxi48',

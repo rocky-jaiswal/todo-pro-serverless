@@ -31,6 +31,6 @@
 
 - Docker multi-stage builds ✅
 - Builds for NPM workspaces ✅
+- Local docker-compose environment ✅
+- Better Docker build for frontend / API ✅
 - Try out "nx"
-- Local docker-compose environment
-- Better Docker build for frontend / API

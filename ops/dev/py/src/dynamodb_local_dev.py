@@ -10,8 +10,8 @@ class LocalDynamoDBTable:
     def teardown(self):
         dynamodb_client = boto3.client(
             "dynamodb",
-            region_name="localhost",
-            endpoint_url="http://localhost:8000",
+            region_name="db",
+            endpoint_url="http://db:8000",
             aws_access_key_id="sao9c6",
             aws_secret_access_key="ixxi48",
         )
@@ -27,8 +27,8 @@ class LocalDynamoDBTable:
     def setup(self):
         dynamodb_client = boto3.client(
             "dynamodb",
-            region_name="localhost",
-            endpoint_url="http://localhost:8000",
+            region_name="db",
+            endpoint_url="http://db:8000",
             aws_access_key_id="sao9c6",
             aws_secret_access_key="ixxi48",
         )
