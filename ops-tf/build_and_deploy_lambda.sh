@@ -1,9 +1,9 @@
 #!/bin/sh
 
 rm -rf ./artifacts/lambda/*.zip && \
-cd ../apps/todo-pro-trpc-server && \
-docker build -t rockyj/todo-pro-trpc-server . && \
+cd ../ && \
+docker build -t rockyj/todo-pro-trpc-server -f Dockerfile.trpc . && \
 docker run -v .:/opt/artifact rockyj/todo-pro-trpc-server && \
-cd ../../ops-tf/ && \
-mv ../apps/todo-pro-trpc-server/lambda_payload.zip ./artifacts/lambda/ && \
+cd ./ops-tf && \
+mv ../lambda_payload.zip ./artifacts/lambda/ && \
 aws lambda update-function-code --function-name yetanotherapp-xyz-function --zip-file fileb://artifacts/lambda/lambda_payload.zip

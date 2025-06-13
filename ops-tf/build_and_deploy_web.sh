@@ -1,12 +1,11 @@
 #!/bin/sh
 
 rm -rf ./artifacts/web/*.zip && \
-cd ../apps/todo-pro-web && \
-npm run build && \
-docker build -t rockyj/todo-pro-web . && \
+cd ../ && \
+docker build -t rockyj/todo-pro-web -f Dockerfile.web . && \
 docker run -v .:/opt/artifact rockyj/todo-pro-web && \
-cd ../../ops-tf/ && \
-mv ../apps/todo-pro-web/web_dist.zip ./artifacts/web/ && \
+cd ./ops-tf && \
+mv ../web_dist.zip ./artifacts/web/ && \
 cd ./artifacts/web && \
 unzip ./web_dist.zip && \
 rm -rf *.zip && \
