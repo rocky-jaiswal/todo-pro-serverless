@@ -4,7 +4,7 @@ rm -rf ./artifacts/web/*.zip && \
 cd ../ && \
 docker build -t rockyj/todo-pro-web -f Dockerfile.web . && \
 docker run -v .:/opt/artifact rockyj/todo-pro-web && \
-cd ./ops-tf && \
+cd ./ops && \
 mv ../web_dist.zip ./artifacts/web/ && \
 cd ./artifacts/web && \
 unzip ./web_dist.zip && \

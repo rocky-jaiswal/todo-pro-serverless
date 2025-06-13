@@ -98,7 +98,7 @@ wheels = [
 ]
 
 [[package]]
-name = "todo-pro-serverless-ops-tf"
+name = "todo-pro-serverless-ops"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

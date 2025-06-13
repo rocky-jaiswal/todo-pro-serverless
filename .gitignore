@@ -45,7 +45,7 @@ terraform.rc
 npm-debug.log
 **/.env
 
-ops-tf/artifacts/lambda/lambda_payload.zip
+ops/artifacts/lambda/lambda_payload.zip
 apps/todo-pro-trpc-server/src/keys/private.pem
 apps/todo-pro-trpc-server/coverage/
-ops-tf/dev/secret_variables.tf
+ops/dev/secret_variables.tf
