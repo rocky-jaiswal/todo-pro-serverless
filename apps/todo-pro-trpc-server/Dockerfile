@@ -1,11 +1,6 @@
-# Use the official Node.js Alpine image for smaller size
-FROM node:20-alpine AS base
+FROM fedora:42
 
-# Install security updates and dumb-init for proper signal handling
-RUN apk update && apk upgrade && \
-  apk add --no-cache dumb-init && \
-  apk add zip && \
-  rm -rf /var/cache/apk/*
+RUN dnf install -y nodejs zip
 
 # Create work directory
 RUN mkdir -p /opt/app

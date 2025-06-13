@@ -45,6 +45,7 @@ resource "aws_lambda_function" "my_lambda" {
   function_name    = local.lambda_function_name
   handler          = "lambdaHandler.handler"
   runtime          = "nodejs20.x"
+  memory_size      = 256
   role             = aws_iam_role.lambda_exec_role.arn
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256

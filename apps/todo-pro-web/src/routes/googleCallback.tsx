@@ -6,6 +6,8 @@ import { createClient } from '../api';
 import { useAsync } from '../hooks/useAsync';
 import { setSessionStorage } from '../utils';
 
+import { Loading } from '../components/Loading';
+
 interface HasCode {
   code?: string;
 }
@@ -33,7 +35,7 @@ const GoogleCallbackPage = () => {
   return (
     <>
       <div className="flex w-full">
-        <p>Loading user...</p>
+        <Loading />
       </div>
     </>
   );

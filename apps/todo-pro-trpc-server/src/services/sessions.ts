@@ -1,5 +1,5 @@
-import * as argon2 from 'argon2';
 import { TRPCError } from '@trpc/server';
+import bcrypt from 'bcryptjs';
 
 import { Secrets } from './secrets';
 import { JWToken } from './token';
@@ -48,12 +48,14 @@ export class SessionsService {
   }
 
   public async encryptPassword(password: string) {
-    const encrypted = await argon2.hash(password);
-    return encrypted;
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    return hash;
   }
 
   private async validatePassword(encryptedPassword: string, password: string) {
-    const result = await argon2.verify(encryptedPassword, password);
+    const result = await bcrypt.compare(password, encryptedPassword);
     return result;
   }
 }

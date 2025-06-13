@@ -5,9 +5,9 @@
 - PWA frontend
   - Assets / icons ✅
 - All features work
-  - New user registration
-  - Login with password
-  - Create / edit / delete stuff
+  - New user registration ✅
+  - Login with password ✅
+  - Create / edit / delete stuff ✅
   - Handle 401 -> redirect to login page with message
 - Unit testing
 - Integration testing
