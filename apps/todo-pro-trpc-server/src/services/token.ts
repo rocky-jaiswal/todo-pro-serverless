@@ -17,7 +17,7 @@ export class JWToken {
         keyid,
         algorithm: 'RS256',
         audience: 'access',
-        expiresIn: '1h',
+        expiresIn: '8h',
       },
     );
   }

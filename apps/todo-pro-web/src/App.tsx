@@ -12,9 +12,16 @@ import './styles/globals.css';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
+import { AuthenticationContext } from './context/Authentication';
+import { useAuthenticationStore } from './store';
 
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  context: {
+    authenticationState: undefined!, // This will be set after we wrap the app in an AuthContext
+  },
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -34,10 +41,20 @@ i18n
     fallbackLng: 'en', // Set the initial language of the App
   });
 
+const AuthenticatedApp = () => {
+  const authenticationState = useAuthenticationStore();
+
+  return (
+    <AuthenticationContext.Provider value={authenticationState}>
+      <RouterProvider router={router} context={{ authenticationState }} />
+    </AuthenticationContext.Provider>
+  );
+};
+
 export const App: React.FC = () => {
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <AuthenticatedApp />
     </React.StrictMode>
   );
 };

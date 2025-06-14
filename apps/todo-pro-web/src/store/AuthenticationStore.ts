@@ -1,37 +1,32 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 
-export interface AuthState {
-  jsonToken: string | null;
-  isAuthenticated: boolean;
-  signIn: () => void;
-  signOut: () => void;
-}
-
 type ActionTypes = 'SIGNIN' | 'SIGNOUT';
 
 interface Actions {
   type: ActionTypes;
-  payload?: unknown;
+  payload?: string;
+}
+
+export interface AuthState {
+  token: string | null;
+  isAuthenticated: boolean;
+  dispatch: (args: Actions) => void;
 }
 
 export const defaultAuthenticationState: AuthState = {
-  jsonToken: null,
+  token: null,
   isAuthenticated: false,
-  signIn: () => {
-    console.log('not invoked');
-  },
-  signOut: () => {
-    console.log('not invoked 2');
-  },
+  dispatch: (_args: Actions) => {}, // dummy function
 };
 
-const reducer = (state: AuthState, { type }: Actions) => {
+const reducer = (state: AuthState, { type, payload }: Actions) => {
+  // console.log({ state, type, payload });
   switch (type) {
     case 'SIGNIN':
-      return { ...state, isAuthenticated: true };
+      return { ...state, isAuthenticated: true, token: payload };
     case 'SIGNOUT':
-      return { ...state, isAuthenticated: false };
+      return { ...state, isAuthenticated: false, token: null };
     default:
       return state;
   }
@@ -41,18 +36,9 @@ export const useAuthenticationStore = create<AuthState>()(
   devtools(
     persist(
       (set) => ({
-        jsonToken: defaultAuthenticationState.jsonToken,
-        isAuthenticated: false,
-        signIn: () =>
-          set((_state) => ({
-            jsonToken: 'dummy',
-            isAuthenticated: true,
-          })),
-        signOut: () =>
-          set((_state) => ({
-            jsonToken: null,
-            isAuthenticated: false,
-          })),
+        token: defaultAuthenticationState.token,
+        isAuthenticated: defaultAuthenticationState.isAuthenticated,
+        dispatch: (args: Actions) => set((state: AuthState) => reducer(state, args)),
       }),
       {
         name: 'authentication-storage',
@@ -61,6 +47,3 @@ export const useAuthenticationStore = create<AuthState>()(
     ),
   ),
 );
-
-export const dispatchForAuthenticationStore = (args: Actions) =>
-  useAuthenticationStore.setState((state: AuthState) => reducer(state, args));

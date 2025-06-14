@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useAsync } from '../../hooks/useAsync';
 import { useRouter } from '@tanstack/react-router';
+import { useAuthenticationStore, type AuthState } from '/@/store';
 
 export const TopBar = () => {
   // const userDetails = api.users.userDetails.useQuery()
+  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState) => state.dispatch);
 
   const router = useRouter();
   const [isLoggedOut, setLoggedOut] = useState(false);
 
   useAsync(async () => {
     if (isLoggedOut) {
+      dispatchForAuthenticationStore({ type: 'SIGNOUT' });
       sessionStorage.clear();
       await router.navigate({ to: '/' });
       router.history.destroy();

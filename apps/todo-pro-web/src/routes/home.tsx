@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import type { Task, TaskList } from 'todo-pro-api/dist';
 import { createClient } from '../api';
@@ -105,4 +105,12 @@ const Home = () => {
 
 export const Route = createFileRoute('/home')({
   component: Home,
+  beforeLoad: ({ context }) => {
+    // console.log({ context });
+    if (!(context as any).authenticationState.isAuthenticated) {
+      throw redirect({
+        to: '/',
+      });
+    }
+  },
 });

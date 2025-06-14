@@ -9,9 +9,9 @@
   - Login with password ✅
   - Create / edit / delete stuff ✅
   - Auth ⭐
-    - Protected routes
+    - Protected routes ✅
+    - Cleanup logout code ✅
     - Handle 401 -> redirect to login page with message
-    - Cleanup logout code
     - JWT token timing and refresh
 - Unit testing
 - Integration testing
