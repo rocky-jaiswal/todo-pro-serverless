@@ -11,8 +11,8 @@
   - Auth ⭐
     - Protected routes ✅
     - Cleanup logout code ✅
-    - Handle 401 -> redirect to login page with message
-    - JWT token timing and refresh
+    - Handle 401 -> redirect to login page with message 🛠️
+    - JWT token auto refresh
 - Unit testing
 - Integration testing
 - 40x vs 50x errors
@@ -26,11 +26,4 @@
   - Use AWS Cloudwatch for logging etc.
   - Log with JSON
   - Do not log secrets
-
-## Future
-
-- Docker multi-stage builds ✅
-- Builds for NPM workspaces ✅
-- Local docker-compose environment ✅
-- Better Docker build for frontend / API ✅
 - Try out "nx"

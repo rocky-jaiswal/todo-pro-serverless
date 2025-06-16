@@ -9,36 +9,35 @@ interface Actions {
 }
 
 export interface AuthState {
-  token: string | null;
   isAuthenticated: boolean;
+}
+
+export interface AuthActions {
   dispatch: (args: Actions) => void;
 }
 
 export const defaultAuthenticationState: AuthState = {
-  token: null,
   isAuthenticated: false,
-  dispatch: (_args: Actions) => {}, // dummy function
 };
 
-const reducer = (state: AuthState, { type, payload }: Actions) => {
+const reducer = (state: AuthState, { type }: Actions) => {
   // console.log({ state, type, payload });
   switch (type) {
     case 'SIGNIN':
-      return { ...state, isAuthenticated: true, token: payload };
+      return { ...state, isAuthenticated: true };
     case 'SIGNOUT':
-      return { ...state, isAuthenticated: false, token: null };
+      return { ...state, isAuthenticated: false };
     default:
       return state;
   }
 };
 
-export const useAuthenticationStore = create<AuthState>()(
+export const useAuthenticationStore = create<AuthState & AuthActions>()(
   devtools(
     persist(
       (set) => ({
-        token: defaultAuthenticationState.token,
         isAuthenticated: defaultAuthenticationState.isAuthenticated,
-        dispatch: (args: Actions) => set((state: AuthState) => reducer(state, args)),
+        dispatch: (args: Actions) => set((state: AuthState & AuthActions) => reducer(state, args)),
       }),
       {
         name: 'authentication-storage',

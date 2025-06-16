@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useAsync } from '../../hooks/useAsync';
 import { useRouter } from '@tanstack/react-router';
-import { useAuthenticationStore, type AuthState } from '/@/store';
+import { useAuthenticationStore, type AuthActions, type AuthState } from '/@/store';
 
 export const TopBar = () => {
-  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState) => state.dispatch);
-
   const router = useRouter();
   const [isLoggedOut, setLoggedOut] = useState(false);
+  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState & AuthActions) => state.dispatch);
 
   useAsync(async () => {
     if (isLoggedOut) {

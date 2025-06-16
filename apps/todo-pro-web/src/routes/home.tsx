@@ -4,7 +4,7 @@ import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 
 import type { Task, TaskList } from 'todo-pro-api/dist';
 import { createClient } from '../api';
-import { useAuthenticationStore, type AuthState } from '../store';
+import { useAuthenticationStore, type AuthActions, type AuthState } from '../store';
 
 import { Loading } from '../components/Loading';
 import { ListAndTasksContainer } from '../components/ListAndTasksContainer';
@@ -14,7 +14,7 @@ import { TopBar } from '../components/TopBar';
 const Home = () => {
   const trpc = createClient(false);
   const router = useRouter();
-  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState) => state.dispatch);
+  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState & AuthActions) => state.dispatch);
 
   const [selectedList, setSelectedList] = useState<string | null>(null);
 
