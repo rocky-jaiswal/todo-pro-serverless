@@ -5,6 +5,7 @@ import { useRouter } from '@tanstack/react-router';
 import { createClient } from '../../api';
 import { useAsync } from '../../hooks/useAsync';
 import { setSessionStorage } from '/@/utils';
+import { useAuthenticationStore, type AuthState } from '/@/store';
 
 interface Props {
   display: boolean;
@@ -13,6 +14,7 @@ interface Props {
 function LoginForm(props: Props) {
   const trpc = createClient();
   const router = useRouter();
+  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState) => state.dispatch);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -23,6 +25,7 @@ function LoginForm(props: Props) {
 
   useAsync(async () => {
     if (createSessionMutation.isSuccess) {
+      dispatchForAuthenticationStore({ type: 'SIGNIN', payload: createSessionMutation.data as string });
       await setSessionStorage('token', createSessionMutation.data);
       await router.navigate({ to: '/home' });
     }

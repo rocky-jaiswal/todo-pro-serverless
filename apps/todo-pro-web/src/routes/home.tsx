@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router';
 
 import type { Task, TaskList } from 'todo-pro-api/dist';
 import { createClient } from '../api';
+import { useAuthenticationStore, type AuthState } from '../store';
 
 import { Loading } from '../components/Loading';
 import { ListAndTasksContainer } from '../components/ListAndTasksContainer';
@@ -12,6 +13,8 @@ import { TopBar } from '../components/TopBar';
 
 const Home = () => {
   const trpc = createClient(false);
+  const router = useRouter();
+  const dispatchForAuthenticationStore = useAuthenticationStore((state: AuthState) => state.dispatch);
 
   const [selectedList, setSelectedList] = useState<string | null>(null);
 
@@ -42,6 +45,16 @@ const Home = () => {
   );
 
   if (taskListDataQuery.isError || taskDataQuery.isError || taskListQuery.isError) {
+    if (
+      [taskListQuery.error?.message, taskListDataQuery.error?.message, taskDataQuery.error?.message].some(
+        (m) => m === 'INVALID_AUTH_TOKEN',
+      )
+    ) {
+      dispatchForAuthenticationStore({ type: 'SIGNOUT' });
+      sessionStorage.clear();
+      router.navigate({ to: '/' });
+      router.history.destroy();
+    }
     return <span className="alert alert-error my-4">Error in fetching data! Please try again later.</span>;
   }
 
