@@ -1,5 +1,5 @@
 import { Entity } from 'electrodb';
-import { getClient, TABLE_NAME } from './client';
+import { getClient, getTableName } from './client';
 
 export const User = new Entity(
   {
@@ -31,5 +31,5 @@ export const User = new Entity(
       },
     },
   },
-  { table: TABLE_NAME, client: getClient().documentClient },
+  { table: getTableName(), client: getClient().documentClient },
 );

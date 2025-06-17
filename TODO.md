@@ -13,6 +13,7 @@
     - Cleanup logout code ✅
     - Handle 401 -> redirect to login page with message 🛠️
     - JWT token auto refresh
+    - Keep me logged in (long lasting token)
 - Unit testing
 - Integration testing
 - 40x vs 50x errors
@@ -21,6 +22,7 @@
   - Do not leak stacktrace
   - Clear error messages
   - Handle errors on client side (e.g. health check) and show message / alerts
+    - Centralize error handling and message display
 - Proper logging
   - With "correlation-ids" etc.
   - Use AWS Cloudwatch for logging etc.

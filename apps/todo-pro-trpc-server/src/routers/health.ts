@@ -3,7 +3,7 @@ import { DescribeTableCommand } from '@aws-sdk/client-dynamodb';
 
 import { trpc, publicProcedure } from '../trpc';
 import { Secrets } from '../services/secrets';
-import { getClient, TABLE_NAME } from '../entities/client';
+import { getClient, getTableName } from '../entities/client';
 
 export const healthRouter = trpc.router({
   ping: publicProcedure.query(async ({ ctx }) => {
@@ -12,7 +12,7 @@ export const healthRouter = trpc.router({
     await new Secrets().getSecrets('TEST_SECRET_V3');
 
     const command = new DescribeTableCommand({
-      TableName: TABLE_NAME,
+      TableName: getTableName(),
     });
 
     const tables = await getClient().dbClient.send(command);

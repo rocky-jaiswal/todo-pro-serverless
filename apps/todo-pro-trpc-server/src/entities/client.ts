@@ -2,6 +2,8 @@ import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 const localHost = 'db'; // or 'localhost'
+const TABLE_NAME = 'yetanotherapp-xyz-data-table';
+const TEST_TABLE_NAME = 'yetanotherapp-xyz-data-test-table';
 
 const localDBClient = new DynamoDBClient({
   region: localHost,
@@ -30,11 +32,16 @@ const prodDocumentClient = new DynamoDB.DocumentClient({
 });
 
 export const getClient = () => {
-  if (process.env.NODE_ENV === 'developement' || process.env.APP_ENVIRONMENT === 'development') {
+  if (['development', 'test'].includes(process.env.NODE_ENV ?? '') || process.env.APP_ENVIRONMENT === 'development') {
     return { dbClient: localDBClient, documentClient: localDocumentClient };
   }
 
   return { dbClient: prodDBClient, documentClient: prodDocumentClient };
 };
 
-export const TABLE_NAME = 'yetanotherapp-xyz-data-table';
+export const getTableName = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return TEST_TABLE_NAME;
+  }
+  return TABLE_NAME;
+};

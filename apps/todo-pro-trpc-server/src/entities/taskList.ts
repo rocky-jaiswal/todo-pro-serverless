@@ -1,7 +1,5 @@
 import { Entity } from 'electrodb';
-import { getClient } from './client';
-
-const TABLE_NAME = 'yetanotherapp-xyz-data-table';
+import { getClient, getTableName } from './client';
 
 export const TaskList = new Entity(
   {
@@ -33,5 +31,5 @@ export const TaskList = new Entity(
       },
     },
   },
-  { table: TABLE_NAME, client: getClient().documentClient },
+  { table: getTableName(), client: getClient().documentClient },
 );

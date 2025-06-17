@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -rf ./dist/ && tsc && cp -R src/keys/ dist/",
     "dev": "APP_ENVIRONMENT=development NODE_ENV=development tsx src/local/server.ts",
-    "test": "npx jest"
+    "test": "NODE_ENV=test npx jest --runInBand"
   },
   "dependencies": {
     "@aws-sdk/client-api-gateway": "^3.758.0",
