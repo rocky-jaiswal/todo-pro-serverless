@@ -1,12 +1,13 @@
 # ToDo Pro Serverless
 
-Serverless cousin of [ToDo Pro](https://github.com/rocky-jaiswal/todo-pro). Uses AWS Lambda, CDN, DynamoDB etc.
+Serverless cousin of [ToDo Pro](https://github.com/rocky-jaiswal/todo-pro). Uses AWS CloudFront, Lambda, DynamoDB etc.
 
 - `ops` directory contains the Terraform setup code. See README inside that.
 - `apps/todo-pro-trpc-server` contains the TRPC code.
 - `apps/todo-pro-web` contains the React web application code.
 - You can develop locally by running DynamoDB locally and running the npm projects individually
   - Use `docker-compose`
+  - Similarly, run integration tests (on local DynamoDB) with `docker-compose run server npm run test`
 
 # Notes
 
