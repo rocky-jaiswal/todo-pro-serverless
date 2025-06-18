@@ -14,8 +14,6 @@
     - Handle 401 -> redirect to login page with message 🛠️
     - JWT token auto refresh
     - Keep me logged in (long lasting token)
-- Unit testing
-- Integration testing
 - 40x vs 50x errors
 - Error handling
   - Log errors + stacktrace
