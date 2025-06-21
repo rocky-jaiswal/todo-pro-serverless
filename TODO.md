@@ -27,3 +27,7 @@
   - Log with JSON
   - Do not log secrets
 - Try out "nx"
+
+## New ideas
+
+- Redesign like https://workout.cool/

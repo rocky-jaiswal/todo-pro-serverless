@@ -31,11 +31,15 @@ describe('api', () => {
     const createUser = () =>
       client.users.createUser.mutate({ email, password: '1234567', confirmedPassword: '123456' });
 
+    let exception = null;
+
     try {
       await createUser();
     } catch (err) {
-      expect(err).not.toBeNull();
+      exception = err;
     }
+
+    expect(exception).not.toBeNull();
   });
 
   it('creates a session', async () => {
