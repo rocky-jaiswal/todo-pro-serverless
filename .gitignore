@@ -48,4 +48,4 @@ npm-debug.log
 ops/artifacts/lambda/lambda_payload.zip
 apps/todo-pro-trpc-server/src/keys/private.pem
 apps/todo-pro-trpc-server/coverage/
-ops/dev/secret_variables.tf
+ops/**/secret_variables.tf
