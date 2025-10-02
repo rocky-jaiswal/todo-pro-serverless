@@ -1,9 +1,11 @@
 # Python + OpenTofu (Terraform) Cloud Setup
 
-- Make sure you are logged in AWS with the right role / user
-- Inside `py` directory run - `uv run main.py -a setup`
+- See `fresh-aws-setup` directory if starting with a new AWS account
+- Then make sure you are logged in AWS with the right user / role
+- Inside `dev/py` directory run - `uv run main.py -a setup`
   - This will setup S3 bucket and DynamoDB table for storing / managing TF state
-- Update `variables.tf` with the S3 bucket and DynamoDB lock table name
+- Update `provider.tf` with the S3 bucket and DynamoDB lock table name
+- Check / update variables in `variables.tf`
 - To setup the infrastructure, run -
   - `tofu fmt`
   - `tofu init`
